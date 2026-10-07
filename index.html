@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FNB Connect × Bitdefender × eInsurer × Travel eSIM · Proposal · Digital Resilience</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --red:#00898C; --reddark:#005F62; --redsoft:rgba(0,169,172,.09);
+    --navy:#1E3A4C; --navysoft:rgba(30,58,76,.07);
+    --ai:#0E7A6E; --aisoft:rgba(14,122,110,.08);
+    --ink:#14201F; --muted:#5F6B6C; --mutedlight:#929D9E;
+    --gold:#C26A00; --goldsoft:rgba(250,157,30,.12);
+    --bg:#F2F6F6; --line:#DCE6E6;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;}
+  .hl{color:var(--red);}
+  .hlg{color:var(--gold);}
+  .hln{color:var(--navy);}
+  .hla{color:var(--ai);}
+  .logoimg{height:26px;width:auto;display:block;}
+
+  /* ---- GATE ---- */
+  #gate{position:fixed;inset:0;z-index:999;display:flex;align-items:center;justify-content:center;
+    background:linear-gradient(150deg,#04201F 0%,#00686B 55%,#00898C 100%);}
+  #gate.hidden{display:none;}
+  .gatecard{width:100%;max-width:360px;padding:1.5rem;text-align:center;}
+  .gatelogo{background:#fff;border-radius:10px;padding:12px 24px;display:inline-flex;align-items:center;justify-content:center;}
+  .gatelogo img{height:46px;width:auto;}
+  .gatesub{color:#CFE0E0;font-size:.65rem;text-transform:uppercase;letter-spacing:.15em;font-weight:600;margin-top:.7rem;}
+  .gatecard h1{color:#fff;font-size:1.2rem;font-weight:700;margin:1.6rem 0 .5rem;}
+  .gatecard p{color:#CFE0E0;font-size:.8rem;line-height:1.6;margin:0 0 1.6rem;}
+  .gateform{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:1.7rem;text-align:left;}
+  .gateform label{display:block;color:#CFE0E0;font-size:.78rem;font-weight:600;margin-bottom:.5rem;}
+  #pw-input{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);border-radius:.7rem;padding:.7rem 1rem;color:#fff;font-size:.875rem;width:100%;outline:none;font-family:inherit;}
+  #pw-input.error{border-color:#FA9D1E;}
+  #pw-btn{margin-top:1rem;width:100%;padding:.75rem;border-radius:.7rem;font-weight:700;font-size:.875rem;color:#fff;cursor:pointer;background:linear-gradient(135deg,var(--red),#00A9AC);border:none;font-family:inherit;}
+  #pw-btn:hover{opacity:.9;}
+  #pw-error{color:#FFC77A;font-size:.74rem;margin-top:.6rem;display:none;}
+  .gatefoot{text-align:center;margin-top:1.7rem;color:#8FA6A6;font-size:.7rem;}
+  .gatefoot strong{color:#BFD3D3;}
+
+  /* ---- APP SHELL ---- */
+  #app[hidden]{display:none;}
+  .topbar{position:fixed;top:0;left:0;right:0;z-index:60;background:rgba(255,255,255,.94);backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);height:60px;display:flex;align-items:center;padding:0 1.25rem;gap:.85rem;}
+  .brand{display:flex;align-items:center;gap:.6rem;flex-shrink:0;}
+  .brandtag{font-size:9px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);background:var(--goldsoft);padding:3px 8px;border-radius:6px;white-space:nowrap;}
+  .pillnav{display:flex;gap:.4rem;overflow-x:auto;flex:1;scrollbar-width:none;}
+  .pillnav::-webkit-scrollbar{display:none;}
+  .pillnav a{white-space:nowrap;font-size:.72rem;font-weight:600;color:var(--muted);text-decoration:none;padding:.4rem .8rem;border-radius:50px;border:1px solid transparent;transition:all .15s;cursor:pointer;flex-shrink:0;}
+  .pillnav a:hover{color:var(--ink);}
+  .pillnav a.active{background:var(--red);color:#fff;}
+  .pillnav a.cta{border-color:var(--gold);color:var(--gold);}
+  .pillnav a.cta.active{background:var(--gold);color:#fff;}
+
+  .stagewrap{padding:88px 1.25rem 96px;min-height:100vh;display:flex;align-items:flex-start;justify-content:center;}
+  #stage{width:100%;max-width:900px;background:#fff;border-radius:22px;box-shadow:0 24px 60px rgba(5,41,42,.08);
+    border:1px solid var(--line);min-height:560px;max-height:calc(100vh - 200px);overflow-y:auto;position:relative;}
+  .slide{display:none;padding:3rem 3.25rem 2.5rem;animation:fadeIn .35s ease;}
+  .slide.active{display:block;}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+
+  .eyebrow{display:inline-flex;align-items:center;gap:6px;font-size:.65rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--red);border:1px solid rgba(0,169,172,.28);background:var(--redsoft);padding:5px 14px;border-radius:50px;margin-bottom:1.4rem;}
+  .eyebrow.gold{color:var(--gold);border-color:rgba(250,157,30,.3);background:var(--goldsoft);}
+  .eyebrow.navy{color:var(--navy);border-color:rgba(30,58,76,.25);background:var(--navysoft);}
+  .eyebrow.ai{color:var(--ai);border-color:rgba(14,122,110,.3);background:var(--aisoft);}
+
+  h1.sh{font-size:1.95rem;font-weight:900;letter-spacing:-.02em;line-height:1.18;margin:0 0 1.1rem;color:var(--ink);}
+  h2.ssh{font-size:1.1rem;font-weight:800;letter-spacing:-.01em;margin:1.6rem 0 .9rem;color:var(--ink);}
+  p.lede{font-size:1rem;line-height:1.7;color:var(--muted);margin:0 0 1.6rem;max-width:660px;}
+  p.body-sm{font-size:.86rem;line-height:1.7;color:var(--muted);margin:0 0 1rem;}
+
+  .statrow{display:grid;grid-template-columns:repeat(4,1fr);gap:.9rem;margin:1.5rem 0;}
+  .statrow.c3{grid-template-columns:repeat(3,1fr);}
+  .stat{background:#F6FAFA;border:1px solid var(--line);border-radius:14px;padding:1rem .9rem;}
+  .stat b{display:block;font-size:1.2rem;font-weight:900;letter-spacing:-.02em;color:var(--red);line-height:1.1;}
+  .stat b.g{color:var(--gold);}
+  .stat b.n{color:var(--navy);}
+  .stat span{display:block;font-size:.7rem;color:var(--muted);margin-top:.3rem;line-height:1.35;}
+
+  .cardgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:.9rem;margin:1.4rem 0;}
+  .cardgrid.c2{grid-template-columns:repeat(2,1fr);}
+  .cardgrid.c4{grid-template-columns:repeat(4,1fr);}
+  .card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:1.2rem;}
+  .card h4{font-size:.86rem;font-weight:800;margin:0 0 .4rem;color:var(--ink);}
+  .card p{font-size:.78rem;color:var(--muted);line-height:1.55;margin:0;}
+  .card .num{width:26px;height:26px;border-radius:8px;background:var(--redsoft);color:var(--red);display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:800;margin-bottom:.7rem;}
+
+  .checklist{display:flex;flex-direction:column;gap:.55rem;margin:0 0 1rem;}
+  .checklist div{display:flex;gap:.6rem;font-size:.84rem;color:#2E3B3C;line-height:1.5;}
+  .checklist .tick{color:var(--red);font-weight:800;flex-shrink:0;}
+  .checklist.gold .tick{color:var(--gold);}
+  .checklist.navy .tick{color:var(--navy);}
+  .checklist.ai .tick{color:var(--ai);}
+  .checklist.mut .tick{color:var(--mutedlight);}
+
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:1.6rem;margin:1.2rem 0;}
+  .boxlabel{font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.09em;color:var(--red);margin-bottom:.8rem;}
+  .boxlabel.mut{color:var(--muted);}
+  .boxlabel.gold{color:var(--gold);}
+  .boxlabel.navy{color:var(--navy);}
+  .boxlabel.ai{color:var(--ai);}
+
+  table.pt{width:100%;border-collapse:collapse;font-size:.78rem;margin:.5rem 0;}
+  table.pt th{text-align:left;font-size:.62rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--red);padding:.55rem .6rem;background:#EAF6F6;border-bottom:1px solid var(--line);}
+  table.pt td{padding:.55rem .6rem;border-bottom:1px solid #E9F1F1;color:#2E3B3C;}
+  table.pt .r{text-align:right;font-variant-numeric:tabular-nums;}
+  table.pt tr.total td{font-weight:700;background:#F6FAFA;}
+
+  .quote{border-left:3px solid var(--gold);padding-left:1rem;font-size:.84rem;color:#2E3B3C;font-style:italic;line-height:1.6;margin:.9rem 0;}
+  .quote cite{display:block;font-style:normal;font-size:.72rem;color:var(--muted);margin-top:.4rem;}
+
+  .barlist{display:flex;flex-direction:column;gap:.55rem;margin:.8rem 0;}
+  .barrow{display:flex;align-items:center;gap:.6rem;}
+  .barrow .lbl{width:110px;flex-shrink:0;font-size:.74rem;color:var(--muted);}
+  .barrow .lbl.on{color:var(--red);font-weight:700;}
+  .barrow .track{flex:1;height:.7rem;background:#E6EFEF;border-radius:50px;overflow:hidden;}
+  .barrow .fill{height:100%;background:linear-gradient(90deg,var(--red),#00A9AC);border-radius:50px;}
+  .barrow .fill.mut{background:#C3D0D0;}
+  .barrow .fill.navy{background:linear-gradient(90deg,var(--navy),#3C6178);}
+  .barrow .val{width:64px;font-size:.72rem;font-weight:700;color:var(--muted);text-align:right;}
+  .barrow .val.on{color:var(--red);}
+
+  .darkslab{background:linear-gradient(150deg,#05292A,#00686B 120%);border-radius:16px;padding:1.6rem 1.7rem;color:#fff;margin:1.2rem 0;}
+  .darkslab .boxlabel{color:#FA9D1E;}
+  .darkslab .checklist div{color:#DDEBEB;}
+  .darkslab .checklist .tick{color:#FA9D1E;}
+
+  .footnote{font-size:.66rem;color:var(--mutedlight);margin-top:.9rem;line-height:1.5;}
+  .footnote a{color:inherit;text-decoration:underline;}
+  .pillrow{display:flex;flex-wrap:wrap;gap:.5rem;margin:.8rem 0;}
+  .miniPill{font-size:.68rem;font-weight:700;color:var(--muted);background:#E9F1F1;border-radius:50px;padding:.35rem .8rem;display:inline-block;}
+
+  .kpigrid{display:grid;grid-template-columns:repeat(2,1fr);gap:.9rem;margin:1.2rem 0;}
+  .kpicell{background:#F6FAFA;border:1px solid var(--line);border-radius:14px;padding:1rem 1.1rem;}
+  .kpicell .kl{font-size:.64rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:.35rem;}
+  .kpicell .kv{font-size:1.35rem;font-weight:900;letter-spacing:-.02em;color:var(--ink);}
+  .kpicell .kv.red{color:var(--red);} .kpicell .kv.gold{color:var(--gold);} .kpicell .kv.navy{color:var(--navy);}
+  .kpicell .ks{font-size:.72rem;color:var(--muted);margin-top:.25rem;line-height:1.4;}
+
+  .contactcard{background:linear-gradient(150deg,#05292A,#00686B 120%);border-radius:18px;padding:2rem;color:#fff;text-align:center;margin-top:1rem;}
+  .contactcard .name{font-weight:800;font-size:1.15rem;margin:.9rem 0 .1rem;}
+  .contactcard .role{color:#BFD3D3;font-size:.82rem;margin-bottom:1rem;}
+  .contactcard a{color:#FA9D1E;font-weight:700;font-size:.88rem;text-decoration:none;}
+
+  .bigstat{background:#fff;border:1px solid var(--line);border-radius:14px;padding:1.3rem 1.4rem;position:relative;overflow:hidden;}
+  .bigstat::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--red);}
+  .bigstat.gold::before{background:var(--gold);}
+  .bigstat .bn{font-size:2.4rem;font-weight:900;line-height:1;letter-spacing:-.03em;color:var(--red);margin-bottom:.5rem;}
+  .bigstat.gold .bn{color:var(--gold);}
+  .bigstat .bt{font-size:.82rem;font-weight:700;color:var(--ink);margin-bottom:.4rem;line-height:1.35;}
+  .bigstat .bd{font-size:.71rem;color:var(--muted);line-height:1.55;}
+
+  .popiastrip{margin-top:1rem;background:linear-gradient(135deg,rgba(0,169,172,.08),rgba(0,169,172,.02));border:1px solid rgba(0,169,172,.22);border-radius:14px;padding:1.5rem 1.7rem;display:flex;align-items:center;gap:1.6rem;flex-wrap:wrap;}
+  .popiastrip .pa{font-size:2.3rem;font-weight:900;color:var(--red);letter-spacing:-.03em;flex-shrink:0;}
+  .popiastrip h4{font-size:1rem;margin:0 0 .35rem;color:var(--ink);}
+  .popiastrip p{font-size:.8rem;color:var(--muted);line-height:1.6;margin:0;max-width:520px;}
+
+  .tlgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:.9rem;margin:1.4rem 0;position:relative;}
+  .tlcard{background:#fff;border:1px solid var(--line);border-radius:14px;padding:1.1rem 1.2rem;}
+  .tlcard.pilot{border-color:rgba(250,157,30,.35);background:var(--goldsoft);}
+
+  .acceptbox{border:1px solid var(--line);border-radius:14px;padding:1.4rem 1.5rem;margin-top:1.2rem;background:#F6FAFA;}
+  .acceptgrid{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;margin-bottom:.9rem;}
+  .acceptgrid label{display:block;font-size:.68rem;font-weight:700;color:var(--muted);margin-bottom:.35rem;text-transform:uppercase;letter-spacing:.06em;}
+  .acceptgrid input{width:100%;padding:.6rem .7rem;border:1px solid var(--line);border-radius:8px;font-family:inherit;font-size:.84rem;background:#fff;}
+  .acceptcheck{display:flex;align-items:flex-start;gap:.5rem;font-size:.76rem;color:var(--muted);margin:.9rem 0;line-height:1.5;}
+  .acceptbtn{background:var(--red);color:#fff;border:none;border-radius:8px;padding:.75rem 1.4rem;font-weight:700;font-size:.84rem;cursor:pointer;font-family:inherit;}
+  .acceptbtn:hover{opacity:.9;}
+  .acceptdone{display:none;text-align:center;padding:1.2rem 0;}
+  .acceptdone .tickbig{width:44px;height:44px;border-radius:50%;background:var(--red);color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin:0 auto .8rem;}
+  .acceptdone .aid{font-size:.72rem;color:var(--muted);margin-top:.5rem;font-family:monospace;}
+
+  /* ---- FOOTER / NAV CONTROLS ---- */
+  .footbar{position:fixed;bottom:0;left:0;right:0;z-index:60;background:rgba(255,255,255,.95);backdrop-filter:blur(10px);
+    border-top:1px solid var(--line);height:64px;display:flex;align-items:center;padding:0 1.25rem;gap:1rem;}
+  .footbar .ftitle{font-weight:800;font-size:.85rem;color:var(--ink);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .footbar .fcount{font-size:.78rem;color:var(--muted);font-variant-numeric:tabular-nums;flex-shrink:0;}
+  .navbtn{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:#fff;color:var(--ink);font-size:1rem;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s;}
+  .navbtn:hover:not(:disabled){background:var(--red);color:#fff;border-color:var(--red);}
+  .navbtn:disabled{opacity:.3;cursor:default;}
+  .progresstrack{position:fixed;bottom:64px;left:0;right:0;height:3px;background:var(--line);z-index:61;}
+  .progressfill{height:100%;background:linear-gradient(90deg,var(--red),var(--gold));transition:width .3s ease;}
+
+  @media(max-width:760px){
+    .slide{padding:2rem 1.4rem 2rem;}
+    h1.sh{font-size:1.4rem;}
+    .statrow,.statrow.c3,.cardgrid,.cardgrid.c2,.cardgrid.c4,.twocol,.kpigrid,.acceptgrid{grid-template-columns:1fr 1fr;}
+  }
+
+  /* ---- FNB CONNECT ADDITIONS ---- */
+  .wlogo{display:flex;align-items:center;gap:.7rem;margin-bottom:1rem;}
+  .wlogo img{height:34px;width:auto;}
+  .wlogo span{font-size:.62rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--mutedlight);}
+  .brandword{font-weight:800;font-size:1.02rem;letter-spacing:-.01em;color:var(--ink);}
+  .brandword span{color:#00A9AC;}
+  .gatelogo{gap:.7rem;}
+  .gatelogo .gw{font-weight:800;font-size:1.35rem;color:#14201F;letter-spacing:-.01em;}
+  .gatelogo .gw span{color:#00A9AC;}
+  .eyebrow.navy{border-color:rgba(30,58,76,.25);}
+
+  .seggrid{display:grid;grid-template-columns:repeat(2,1fr);gap:.9rem;margin:1.2rem 0;}
+  .seg{background:#fff;border:1px solid var(--line);border-radius:14px;padding:1.1rem 1.2rem;position:relative;overflow:hidden;}
+  .seg::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:#00A9AC;}
+  .seg.o::before{background:#FA9D1E;}
+  .seg .sh4{display:flex;justify-content:space-between;align-items:baseline;gap:.6rem;margin-bottom:.35rem;}
+  .seg h4{font-size:.9rem;font-weight:800;margin:0;color:var(--ink);}
+  .seg .tag{font-size:.6rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--red);background:var(--redsoft);border-radius:50px;padding:.25rem .6rem;white-space:nowrap;}
+  .seg.o .tag{color:var(--gold);background:var(--goldsoft);}
+  .seg p{font-size:.77rem;color:var(--muted);line-height:1.55;margin:0 0 .5rem;}
+  .seg .how{font-size:.74rem;color:#2E3B3C;line-height:1.5;margin:0;}
+  .seg .how b{color:var(--ink);}
+
+  .mockwrap{display:grid;grid-template-columns:260px 1fr;gap:2rem;align-items:center;margin:1.2rem 0 .4rem;}
+  .phone{width:250px;margin:0 auto;border-radius:36px;background:#14201F;padding:10px;box-shadow:0 20px 40px rgba(5,41,42,.18);}
+  .screen{background:#F2F6F6;border-radius:28px;overflow:hidden;height:490px;display:flex;flex-direction:column;font-size:11px;}
+  .scrtop{background:linear-gradient(150deg,#00898C,#00A9AC);color:#fff;padding:14px 14px 18px;}
+  .scrtop .stat-bar{display:flex;justify-content:space-between;font-size:9px;opacity:.85;margin-bottom:10px;}
+  .scrtop .tt{display:flex;align-items:center;gap:7px;font-weight:800;font-size:13px;}
+  .scrtop .tt img{width:20px;height:20px;background:#fff;border-radius:50%;}
+  .scrtop .sub{font-size:9.5px;opacity:.9;margin-top:4px;}
+  .scrbody{padding:10px;display:flex;flex-direction:column;gap:8px;flex:1;}
+  .sc{background:#fff;border-radius:12px;padding:10px 11px;border:1px solid #DCE6E6;}
+  .sc .k{font-size:8.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#5F6B6C;}
+  .sc .v{font-size:13px;font-weight:800;color:#14201F;margin-top:2px;}
+  .sc .row{display:flex;justify-content:space-between;align-items:center;}
+  .tog{width:30px;height:17px;border-radius:20px;background:#00A9AC;position:relative;flex-shrink:0;}
+  .tog::after{content:'';position:absolute;right:2px;top:2px;width:13px;height:13px;border-radius:50%;background:#fff;}
+  .meter{height:6px;border-radius:6px;background:#E6EFEF;margin-top:6px;overflow:hidden;}
+  .meter i{display:block;height:100%;width:60%;background:#00A9AC;}
+  .shield{color:#00898C;font-weight:800;}
+  .ebtn{background:#FA9D1E;color:#14201F;font-weight:800;text-align:center;border-radius:10px;padding:9px;font-size:11px;}
+  .scrnote{font-size:8.5px;color:#5F6B6C;text-align:center;}
+  .callouts{display:flex;flex-direction:column;gap:.8rem;}
+  .callout{display:flex;gap:.8rem;align-items:flex-start;}
+  .callout .cn{width:28px;height:28px;border-radius:50%;background:var(--redsoft);color:var(--red);font-weight:800;font-size:.75rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .callout h4{font-size:.86rem;font-weight:800;margin:0 0 .2rem;color:var(--ink);}
+  .callout p{font-size:.77rem;color:var(--muted);line-height:1.55;margin:0;}
+
+  @media(max-width:760px){
+    .seggrid{grid-template-columns:1fr;}
+    .mockwrap{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ GATE ============ -->
+<div id="gate">
+  <div class="gatecard">
+    <div class="gatelogo"><img src="data:image/png;base64,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" alt="FNB"><span class="gw">FNB <span>Connect</span></span></div>
+    <div class="gatesub">Bitdefender · eInsurer Cyber Warranty · Travel eSIM</div>
+    <h1>A Proposal for FNB Connect</h1>
+    <p>This proposal is confidential and intended for FNB Connect leadership.<br>Please enter the access code provided by your contact at Digital Resilience.</p>
+    <div class="gateform">
+      <label>Access Code</label>
+      <input id="pw-input" type="password" placeholder="Enter access code" autocomplete="off" onkeydown="if(event.key==='Enter')checkPw()">
+      <div id="pw-error">Incorrect code. Please try again.</div>
+      <button id="pw-btn" onclick="checkPw()">Access Proposal →</button>
+    </div>
+    <div class="gatefoot">Prepared by <strong>Digital Resilience</strong> · Confidential</div>
+  </div>
+</div>
+
+<!-- ============ APP ============ -->
+<div id="app" hidden>
+
+  <header class="topbar">
+    <div class="brand"><img class="logoimg" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMzNweCIgaGVpZ2h0PSIzM3B4IiB2aWV3Qm94PSIwIDAgMzMgMzMiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8dGl0bGU+aGVhZGVyLWxvZ29fbHJnPC90aXRsZT4KICAgIDxnIGlkPSJQYWdlLTEiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPgogICAgICAgIDxnIGlkPSJoZWFkZXItbG9nb19scmciIGZpbGwtcnVsZT0ibm9uemVybyI+CiAgICAgICAgICAgIDxnIGlkPSJpY29ucy9yZXNlcnZlZC9wYXltZW50cyI+CiAgICAgICAgICAgICAgICA8cGF0aCBkPSJNMzMsMTYuNSBDMzMsMjUuNjEyNzIwOCAyNS42MTI3MjA4LDMzIDE2LjUsMzMgQzcuMzg3Mjc5MTcsMzMgMCwyNS42MTI3MjA4IDAsMTYuNSBDMCw3LjM4NzI3OTE3IDcuMzg3Mjc5MTcsMCAxNi41LDAgQzI1LjYxMjcyMDgsMCAzMyw3LjM4NzI3OTE3IDMzLDE2LjUiIGlkPSJGaWxsLTEiIGZpbGw9IiMwMEE5QUMiPjwvcGF0aD4KICAgICAgICAgICAgICAgIDxwYXRoIGQ9Ik0yOC40MjU3NDE3LDE2LjUgQzI4LjQyNTc0MTcsMjMuMDg2Mzg3NSAyMy4wODYzODc1LDI4LjQyNTc0MTcgMTYuNSwyOC40MjU3NDE3IEM5LjkxMzYxMjUsMjguNDI1NzQxNyA0LjU3NDI1ODMzLDIzLjA4NjM4NzUgNC41NzQyNTgzMywxNi41IEM0LjU3NDI1ODMzLDkuOTEzNjEyNSA5LjkxMzYxMjUsNC41NzQyNTgzMyAxNi41LDQuNTc0MjU4MzMgQzIzLjA4NjM4NzUsNC41NzQyNTgzMyAyOC40MjU3NDE3LDkuOTEzNjEyNSAyOC40MjU3NDE3LDE2LjUiIGlkPSJGaWxsLTMiIGZpbGw9IiNGQTlEMUUiPjwvcGF0aD4KICAgICAgICAgICAgICAgIDxwYXRoIGQ9Ik0xNi41LDI3LjkzNTY4MjUgQzEwLjE4NDIxMjUsMjcuOTM1NjgyNSA1LjA2NDI2MjUsMjIuODE1NzMyNSA1LjA2NDI2MjUsMTYuNDk5OTkwOCBDNS4wNjQyNjI1LDEwLjE4NDI0OTIgMTAuMTg0MjEyNSw1LjA2NDI5OTE3IDE2LjUsNS4wNjQyOTkxNyBDMjIuODE1Nzg3NSw1LjA2NDI5OTE3IDI3LjkzNTczNzUsMTAuMTg0MjQ5MiAyNy45MzU3Mzc1LDE2LjQ5OTk5MDggQzI3LjkzNTczNzUsMjIuODE1NzMyNSAyMi44MTU3ODc1LDI3LjkzNTY4MjUgMTYuNSwyNy45MzU2ODI1IE0xNi41LDMuOTIwODQ5MTcgQzkuNTUyNzIwODMsMy45MjA4NDkxNyAzLjkyMDgxMjUsOS41NTI3MTE2NyAzLjkyMDgxMjUsMTYuNDk5OTkwOCBDMy45MjA4MTI1LDIzLjQ0NzI3IDkuNTUyNzIwODMsMjkuMDc5MTc4MyAxNi41LDI5LjA3OTE3ODMgQzIzLjQ0NzI3OTIsMjkuMDc5MTc4MyAyOS4wNzkxODc1LDIzLjQ0NzI3IDI5LjA3OTE4NzUsMTYuNDk5OTkwOCBDMjkuMDc5MTg3NSw5LjU1MjcxMTY3IDIzLjQ0NzI3OTIsMy45MjA4NDkxNyAxNi41LDMuOTIwODQ5MTciIGlkPSJGaWxsLTUiIGZpbGw9IiNGRkZGRkYiPjwvcGF0aD4KICAgICAgICAgICAgICAgIDxwYXRoIGQ9Ik0xOC4xMjIxODM4LDE3LjAwMzc4NjMgQzE3LjQwNzUwNDYsMTcuODQ4NTQwNCAxNi44NDM1NzEzLDE4Ljg0NDMxNTQgMTYuNTAwMDA0NiwxOS45MzA2NTcxIEMxNi4xNTY0Mzc5LDE4Ljg0NDMxNTQgMTUuNTkyNTA0NiwxNy44NDg1NDA0IDE0Ljg3NzgyNTQsMTcuMDAzNzg2MyBMMTQuODc3ODcxMywxNy4wMDM3ODYzIEMxNC44NzQwMjEzLDE2Ljk5OTI0ODggMTQuODcwMjE3MSwxNi45OTQ2MTk2IDE0Ljg2NjMyMTMsMTYuOTkwMDgyMSBMMTYuNTAwMDA0NiwxNi45OTAwODIxIEwxOC4xMzM2ODc5LDE2Ljk5MDA4MjEgQzE4LjEyOTc5MjEsMTYuOTk0NjE5NiAxOC4xMjU5ODc5LDE2Ljk5OTI0ODggMTguMTIyMTM3OSwxNy4wMDM3ODYzIEwxOC4xMjIxODM4LDE3LjAwMzc4NjMgWiBNMTYuNTAwMDA0NiwxNS4yNDc0OTg3IEMxNS42NDQyOTYzLDE1LjI0NzYzNjIgMTQuNzgzNzc1NCwxNS4yNjkxNzc5IDEzLjkyMzQ4MzcsMTUuMzExMzkwNCBDMTMuNTQ4MDYyOSwxNC44MTMwOTA0IDEzLjA5NTU5NjIsMTQuMzc4MDQwNCAxMi41ODMwODc5LDE0LjAyNDcxMTIgQzEzLjg3NjM2NzEsMTMuOTMyOTA3MSAxNS4xODI1MjU0LDEzLjg4NjExMTIgMTYuNTAwMDA0NiwxMy44ODYxMTEyIEMxOS4xMDc4NzU0LDEzLjg4NjExMTIgMjEuNjcxNTYyOSwxNC4wNjkxNjk2IDI0LjE3ODE4NzksMTQuNDIyNDUyOSBMMjQuMzE5MzU0NiwxMy4wNzk0OTA0IEMyMS43OTQ4NTQ2LDEyLjU3MzEyMzcgMTkuMTc5NTU4OCwxMi4zMDY4Nzc5IDE2LjUwMDAwNDYsMTIuMzA2ODc3OSBDMTMuODIwNDUwNCwxMi4zMDY4Nzc5IDExLjIwNTE1NDYsMTIuNTczMTIzNyA4LjY4MDY1NDU4LDEzLjA3OTQ5MDQgTDguODIxODIxMjUsMTQuNDIyNDUyOSBDOS40NDc1Mzc5MiwxNC4zMzQyNjk2IDEwLjA3Njg3NTQsMTQuMjU2NzY1NCAxMC43MDk1MTI5LDE0LjE5MDAzMjEgQzEwLjgyMTk4NzksMTQuMTc3MTA3MSAxMC45MTI4Mjk2LDE0LjIwNzQ5NDYgMTAuOTYyODc5NiwxNC4yMjk0NDg3IEMxMS41NTM4MDg3LDE0LjQ4ODQ1MjkgMTIuMDY0MzQ2MiwxNC44OTU0MDcxIDEyLjQ1MjE4NzksMTUuNDA0MDE5NiBDMTAuODQ1MDg3OSwxNS41MjczNTcxIDkuMjQ4NDgzNzUsMTUuNzIyODgyMSA3LjY5NDkxNzA4LDE1Ljk4ODQ4NjIgTDcuODQxNTgzNzUsMTcuMzc5ODk0NiBDOS4wODc0NzEyNSwxNy4yNzE3Mjc5IDEwLjYxMTM4MzcsMTcuMTU3MDk4NyAxMC45MzMwODc5LDE3LjE1MDcyNzkgQzEyLjc1OTIyNTQsMTcuMTE0NTE5NiAxNC4yNzUzMDA0LDE4LjM2NzkyMzcgMTQuNzEyMjc1NCwyMC4xNDU3MDcxIEMxNS4wMTQxMzM3LDIxLjQxNTUxOTYgMTQuODU0NDA0NiwyMy4wNTY0OTA0IDE0LjgxMTgyNTQsMjMuODUxNDY5NiBMMTYuNTAwMDA0NiwyMy44NTE0Njk2IEwxOC4xODgxODM4LDIzLjg1MTQ2OTYgQzE4LjE0NTYwNDYsMjMuMDU2NDkwNCAxNy45ODU4NzU0LDIxLjQxNTUxOTYgMTguMjg3Njg3OSwyMC4xNDU3MDcxIEMxOC43MjQ3MDg3LDE4LjM2NzkyMzcgMjAuMjQwNzgzNywxNy4xMTQ1MTk2IDIyLjA2NjkyMTMsMTcuMTUwNzI3OSBDMjIuMzg4NjI1NCwxNy4xNTcwOTg3IDIzLjkxMjUzNzksMTcuMjcxNzI3OSAyNS4xNTg0MjU0LDE3LjM3OTg5NDYgTDI1LjMwNTA5MjEsMTUuOTg4NDg2MiBDMjIuNDQ4MjA4NywxNS41MDAwODYyIDE5LjQ0NTg5NjIsMTUuMjQ4MDQ4NyAxNi41MDAwMDQ2LDE1LjI0NzQ5ODcgTDE2LjUwMDAwNDYsMTUuMjQ3NDk4NyBaIE0xNi41MDAwMDQ2LDkuODAxOTgwODMgQzE0LjYwNjQ5MjEsOS44MDE5ODA4MyAxMi43NTk2Mzc5LDEwLjAwMTQ0NzUgMTAuOTc5MTA0NiwxMC4zODAzMDU4IEwxMS4xMDg5MDQ2LDExLjYxNTYwNTggQzEyLjg2Nzk0MjEsMTEuMzUzNjY4MyAxNC42NjgwOTIxLDExLjIxNzc3MjUgMTYuNTAwMDA0NiwxMS4yMTc3NzI1IEMxOC4zMzE5MTcxLDExLjIxNzc3MjUgMjAuMTMyMDY3MSwxMS4zNTM2NjgzIDIxLjg5MTEwNDYsMTEuNjE1NjA1OCBMMjIuMDIwOTA0NiwxMC4zODAzMDU4IEMyMC4yNDAzNzEzLDEwLjAwMTQ0NzUgMTguMzkzNTE3MSw5LjgwMTk4MDgzIDE2LjUwMDAwNDYsOS44MDE5ODA4MyIgaWQ9IkZpbGwtOSIgZmlsbD0iIzAwMDAwMCI+PC9wYXRoPgogICAgICAgICAgICA8L2c+CiAgICAgICAgPC9nPgogICAgPC9nPgo8L3N2Zz4=" alt="FNB"><span class="brandword">FNB <span>Connect</span></span></div>
+    <span class="brandtag">Protect · Warranty · Travel eSIM</span>
+    <nav class="pillnav" id="pillnav">
+      <a data-goto="1">Opportunity</a>
+      <a data-goto="2">Why It Matters</a>
+      <a data-goto="3">About DSG</a>
+      <a data-goto="4">About Bitdefender</a>
+      <a data-goto="5">Why Bitdefender</a>
+      <a data-goto="7">Platform</a>
+      <a data-goto="9">Packaging</a>
+      <a data-goto="12">Cyber Warranty</a>
+      <a data-goto="14">Prepaid Growth</a>
+      <a data-goto="16">In the App</a>
+      <a data-goto="18">Marketing</a>
+      <a data-goto="19">Support</a>
+      <a data-goto="20">Commercials</a>
+      <a data-goto="21">Financial Model</a>
+      <a data-goto="23">Terms</a>
+      <a data-goto="24">Timeline</a>
+      <a data-goto="25" class="cta">Next Steps</a>
+    </nav>
+  </header>
+
+  <div class="stagewrap"><div id="stage">
+
+    <!-- 0 : COVER -->
+    <section class="slide">
+      <span class="eyebrow">Prepared for FNB Connect · 2026</span>
+      <h1 class="sh">Every FNB Connect SIM, <span class="hl">protected by Bitdefender and backed by eInsurer.</span></h1>
+      <p class="lede">Digital Resilience partners with Bitdefender — the world's most-awarded consumer cybersecurity platform — to give FNB Connect a ready-to-deploy device, identity and privacy protection layer for its <strong style="color:var(--ink)">1 million active SIMs</strong> and the <strong style="color:var(--ink)">~3 million customers</strong> who already buy connectivity through FNB. It comes with eInsurer's <strong style="color:var(--ink)">Personal Cyber Warranty</strong>, which reimburses customers up to R25,000 if an attack still gets through. Travel eSIM from DSG's MVNE division completes a prepaid growth offer. Everything is delivered in the FNB App, can be paid for in eBucks, and needs no new network or infrastructure. Bitdefender partners report ARPU growth of <strong style="color:var(--ink)">5–8%*</strong>.</p>
+      <div class="popiastrip" style="margin-top:0;">
+        <div class="pa">1M</div>
+        <div>
+          <h4>Active FNB Connect SIMs⁵</h4>
+          <p>The first South African bank to become an MVNO now runs a million active SIMs across the Cell C and MTN networks. Revenue is above R3 billion, up 14%, and ARPU rose 8% in the year to June 2026⁶. Security is the next lever on that ARPU.</p>
+        </div>
+      </div>
+      <div class="statrow" style="margin-top:1rem;">
+        <div class="stat"><b>5.5B</b><span>malware attacks worldwide in 2022¹</span></div>
+        <div class="stat"><b>18</b><span>attacks per day against home networks²</span></div>
+        <div class="stat"><b>74%</b><span>of users worried about being hacked³</span></div>
+        <div class="stat"><b>49%</b><span>expect a security solution from their provider⁴</span></div>
+      </div>
+      <p class="footnote">*Results reported by existing Bitdefender partners. Values are subject to variability and rely on a multitude of influencing factors.<br>
+      1. Statista, Annual number of malware attacks worldwide 2015–2022. 2. Bitdefender, The 2023 IoT Security Landscape Report. 3. Statista, Crimes Americans worry about most in 2022. 4. Bitdefender Security and Privacy Study, Sep 2023.<br>
+      5. ITWeb, "FNB Connect reaches 1m active subscribers", 25 Nov 2025: <a href="https://www.itweb.co.za/article/fnb-connect-reaches-1m-active-subscribers/nWJad7bNGXj7bjO1" target="_blank" rel="noopener">itweb.co.za</a>.<br>
+      6. BusinessDay, "How mobile services are gaining traction at FNB", 30 Sep 2026: 1 million active SIMs in the 12 months to June 2026, ~3 million customers, revenue above R3bn (+14%), ARPU +8%: <a href="https://www.businessday.co.za/companies/company-strategy/2026-09-30-how-mobile-services-are-gaining-traction-at-fnb/" target="_blank" rel="noopener">businessday.co.za</a>.</p>
+    </section>
+
+    <!-- 1 : THE OPPORTUNITY -->
+    <section class="slide">
+      <span class="eyebrow">The Opportunity</span>
+      <h1 class="sh">FNB Connect already sells the SIM, the device and the data. <span class="hl">Protection is the missing piece.</span></h1>
+      <p class="lede">Most telcos have to persuade a customer to trust them with security. FNB Connect starts from a bank's trust, and it already holds the customer's money, phone number and handset. Adding device and identity protection fits that position, and it is a product roughly half of consumers already expect from their provider.</p>
+      <div class="cardgrid">
+        <div class="card"><div class="num">01</div><h4>1 million SIMs, already billed</h4><p>Every active SIM is an account FNB Connect bills today. Protection can be attached to a bundle or plan in the FNB App with no new acquisition journey.</p></div>
+        <div class="card"><div class="num">02</div><h4>A device business to attach to</h4><p>64,000+ device sales worth R635 million, across 400+ device types⁷. The checkout is where a customer is most willing to protect a new phone.</p></div>
+        <div class="card"><div class="num">03</div><h4>eBucks as a payment rail</h4><p>Customers spent 190 million eBucks on Connect airtime, data and devices⁷. Protection that can be paid for in eBucks is easy to say yes to.</p></div>
+      </div>
+      <div class="darkslab">
+        <div class="boxlabel">Why this is low-risk</div>
+        <p style="color:#DDEBEB;font-size:.85rem;line-height:1.7;margin:0;">Bitdefender already runs inside mobile operators such as Orange, Telefónica, Swisscom and TELE2, with proven attach-rate ranges and pricing. FNB Connect would be applying a tested telco model to a base it already bills, through an app its customers already use.</p>
+      </div>
+      <p class="footnote">7. ITWeb, 25 Nov 2025 (FNB Connect, July 2024 – June 2025): 64,000+ credit and cash device sales worth R635m across 400+ device types, 190 million eBucks spent on airtime, data and devices, and eSIM at 10% of monthly SIM sales.</p>
+    </section>
+
+    <!-- 2 : WHY IT MATTERS FOR FNB CONNECT -->
+    <section class="slide">
+      <span class="eyebrow">Why It Matters for FNB Connect</span>
+      <h1 class="sh">The South African threat landscape makes this <span class="hl">urgent, not optional.</span></h1>
+      <p class="lede">The global figures on the cover are the market backdrop. This is the local picture FNB Connect operates in, and why a consumer protection layer reduces risk for the bank as well as adding value for the customer.</p>
+      <div class="tlgrid">
+        <div class="bigstat"><div class="bn">R91M+</div><div class="bt">Average cost of a single data breach in South Africa</div><div class="bd">IBM Cost of a Data Breach Report 2024. For a bank-owned operator the real cost, including regulatory penalties, customer attrition, litigation, forensics and remediation, can far exceed this benchmark.</div></div>
+        <div class="bigstat"><div class="bn">241</div><div class="bt">Average days to identify and contain a data breach, globally</div><div class="bd">IBM Cost of a Data Breach Report 2025. It is the lowest in nine years, but still leaves customer data, credentials and payment details exposed for about eight months.</div></div>
+        <div class="bigstat gold"><div class="bn">92%</div><div class="bt">Of Africa's ransomware detections are attributed to South Africa</div><div class="bd">Interpol African Cyberthreat Assessment Report 2026 (Aug 2026). South Africa also accounts for 70% of the continent's business email compromise detections and nearly 40% of phishing detections.</div></div>
+      </div>
+      <div class="popiastrip">
+        <div class="pa">R10M</div>
+        <div>
+          <h4>POPIA makes every breach a board-level legal event</h4>
+          <p>Non-compliance under the Protection of Personal Information Act carries administrative fines of up to R10 million, and directors can face personal liability. A consumer-facing security layer helps demonstrate reasonable safeguards for customer data.</p>
+        </div>
+      </div>
+      <div class="statrow" style="margin-top:1.2rem;">
+        <div class="stat"><b>R3.9B</b><span>SA banking fraud losses in 2025 (SABRIC Annual Crime Statistics Report)</span></div>
+        <div class="stat"><b>89%</b><span>of 2025 digital banking crime was banking-app related rather than a systems breach (SABRIC)</span></div>
+        <div class="stat"><b>62%</b><span>of breaches involve a human element such as phishing, credentials or error (Verizon 2026 DBIR)</span></div>
+      </div>
+      <div class="darkslab">
+        <div class="boxlabel">For a bank-owned MVNO, the handset is the front door</div>
+        <p style="color:#DDEBEB;font-size:.85rem;line-height:1.7;margin:0;">An FNB Connect SIM sits in the same phone as the FNB App, its approvals and its one-time PINs. When that handset is compromised, it is often the first step in account takeover and SIM-swap fraud against FNB's own customers. Protecting the device also protects FNB's fraud line, so this is a defensive investment as well as a revenue one.</p>
+      </div>
+    </section>
+
+    <!-- 3 : ABOUT DSG -->
+    <section class="slide">
+      <span class="eyebrow">The Provider</span>
+      <h1 class="sh">Seven divisions. <span class="hl">One stack.</span></h1>
+      <p class="lede">DSG is the South African technology group behind Digital Resilience and this platform. Each division operates on its own and works with the others. FNB Connect can engage the ones relevant to this proposal or the group as a whole. The MVNE division already builds VAS, eSIM and loyalty products for mobile brands like FNB Connect.</p>
+      <div class="cardgrid">
+        <div class="card"><div class="num">01</div><h4>MVNE</h4><p><strong>Mobile Virtual Network Enabler</strong>: VAS, eSIM, travel eSIM, loyalty and revenue assurance for existing mobile operators and brands.</p></div>
+        <div class="card"><div class="num">02</div><h4>CXG</h4><p><strong>Customer Experience Group</strong>: omni-channel support across voice, email, chat, social and WhatsApp, plus CRM and BI.</p></div>
+        <div class="card"><div class="num">03</div><h4>Digitalise</h4><p><strong>Design &amp; Development Studio</strong>: digital transformation, SEO/PPC, web and app development.</p></div>
+        <div class="card"><div class="num">04</div><h4>BroadBrand</h4><p><strong>AI-Driven Mobile Media Marketing</strong>: MaaS, content, digital advertising and the Xanite CVM platform.</p></div>
+        <div class="card"><div class="num">05</div><h4>digitalmall.com</h4><p><strong>Turnkey E-Commerce</strong>: branded online stores, device and SIM sales, bundle commerce.</p></div>
+        <div class="card" style="border-color:rgba(0,169,172,.3);background:var(--redsoft);"><div class="num" style="background:rgba(0,169,172,.16);">06</div><h4>Digital Resilience</h4><p><strong>Managed Cybersecurity</strong> for enterprises, SMEs and consumers, powered by Bitdefender. This proposal comes to FNB Connect through this division.</p></div>
+        <div class="card"><div class="num">07</div><h4>eInsurer</h4><p><strong>Personal Cyber Warranty</strong>: covers the individual, their device and their funds against identity theft, digital wallet fraud and unauthorised transactions, in Entry, TERA and GIGA tiers.</p></div>
+      </div>
+    </section>
+
+    <!-- 4 : ABOUT BITDEFENDER -->
+    <section class="slide">
+      <span class="eyebrow">About Bitdefender</span>
+      <h1 class="sh">A Global Leader in <span class="hl">Cybersecurity.</span></h1>
+      <p class="lede">Protecting millions of consumer and business environments since 2001.</p>
+      <div class="statrow">
+        <div class="stat"><b style="font-size:.95rem;">Bucharest / Santa Clara</b><span>Headquarters in Romania &amp; California</span></div>
+        <div class="stat"><b>440</b><span>patents</span></div>
+        <div class="stat"><b>1,800</b><span>employees, more than half of them security researchers &amp; engineers</span></div>
+        <div class="stat"><b>20,000+</b><span>qualified partners &amp; resellers in 170 countries</span></div>
+      </div>
+      <h2 class="ssh">Worldwide Offices</h2>
+      <div class="cardgrid">
+        <div class="card"><h4>North America</h4><p>United States: Santa Clara CA, San Antonio TX, Fort Lauderdale FL. Canada: Toronto, Vancouver.</p></div>
+        <div class="card"><h4>EMEA</h4><p>United Kingdom, France, Germany, Spain, Denmark, Italy, Sweden, Netherlands.</p></div>
+        <div class="card"><h4>UAE / APAC</h4><p>Australia: Melbourne.</p></div>
+      </div>
+    </section>
+
+    <!-- 5 : WHY BITDEFENDER - AWARD DOMINATION -->
+    <section class="slide">
+      <span class="eyebrow gold">Why Bitdefender</span>
+      <h1 class="sh">There's 'award-winning'. And then there's <span class="hlg">award domination.</span></h1>
+      <div class="quote">"Not only did Bitdefender receive the highest overall rating in this year's test, but it has also now won this coveted award five times, which surpasses all other vendors assessed in the past decade."<cite>AV Comparatives Consumer Summary Report 2022</cite></div>
+      <p class="lede" style="margin-top:1.2rem;">Bitdefender products have consistently ranked high in independent lab tests and in user preference surveys.</p>
+      <div class="cardgrid c4">
+        <div class="card"><h4>#1</h4><p>Best Antivirus Software, 2024</p></div>
+        <div class="card"><h4>#1</h4><p>Best Malware Removal &amp; Protection Software, 2024</p></div>
+        <div class="card"><h4>#1</h4><p>Best Mac Antivirus Software, 2024</p></div>
+        <div class="card"><h4>#1</h4><p>Best Android Antivirus, 2024</p></div>
+      </div>
+      <div class="boxlabel gold" style="margin-top:1.2rem;">Security Suites 2023: Overall Satisfaction</div>
+      <div class="barlist">
+        <div class="barrow"><span class="lbl on">Bitdefender</span><div class="track"><div class="fill" style="width:91%;"></div></div><span class="val on">9.1</span></div>
+        <div class="barrow"><span class="lbl">Webroot</span><div class="track"><div class="fill mut" style="width:90%;"></div></div><span class="val">9.0</span></div>
+        <div class="barrow"><span class="lbl">Malwarebytes</span><div class="track"><div class="fill mut" style="width:90%;"></div></div><span class="val">9.0</span></div>
+        <div class="barrow"><span class="lbl">Microsoft</span><div class="track"><div class="fill mut" style="width:86%;"></div></div><span class="val">8.6</span></div>
+        <div class="barrow"><span class="lbl">Kaspersky Lab</span><div class="track"><div class="fill mut" style="width:86%;"></div></div><span class="val">8.6</span></div>
+      </div>
+      <p class="footnote">"Antivirus protection by Bitdefender Total Security's Android edition swept the testing labs, with perfect scores from AV-Test, AV-Comparatives, and MRG-Effitas."</p>
+    </section>
+
+    <!-- 6 : TRUSTED BY LEADING SERVICE PROVIDERS -->
+    <section class="slide">
+      <span class="eyebrow gold">Industry Acknowledgement</span>
+      <h1 class="sh">Trusted by Leading <span class="hlg">Mobile &amp; Service Providers</span></h1>
+      <div class="twocol">
+        <div class="quote">"Bitdefender is the best in the market today. We looked at three, four different options and we all came to the same, unanimous conclusion, that Bitdefender is the most robust out there for consumer usage."<cite>Patrick Lo, Co-Founder, NETGEAR</cite></div>
+        <div class="quote">"We've chosen to partner with Bitdefender, because the quality of the technologies clearly responds to customers' needs and the company's offering for ISPs was the most versatile we found."<cite>Grégory Rabuel, CEO, SFR</cite></div>
+      </div>
+      <div class="boxlabel gold" style="margin-top:1.2rem;">Partner Network</div>
+      <div class="pillrow">
+        <span class="miniPill">Orange</span><span class="miniPill">WINDTRE</span><span class="miniPill">NETGEAR</span><span class="miniPill">CKH</span>
+        <span class="miniPill">Swisscom</span><span class="miniPill">Telefónica</span><span class="miniPill">SFR</span><span class="miniPill">Zyxel Networks</span>
+        <span class="miniPill">Viasat</span><span class="miniPill">Altice</span><span class="miniPill">TELE2</span><span class="miniPill">Telenet</span>
+        <span class="miniPill">Liberty Global</span><span class="miniPill">T1 ISP</span><span class="miniPill">Proximus</span>
+      </div>
+      <p class="body-sm" style="margin-top:1rem;">Most of this network is mobile and fixed-line operators, so FNB Connect would be adopting a model built for telcos rather than adapting one built for banks.</p>
+    </section>
+
+    <!-- 7 : THREE PILLARS OF PROTECTION -->
+    <section class="slide">
+      <span class="eyebrow">Core Capabilities</span>
+      <h1 class="sh">Three Pillars of <span class="hl">Protection</span></h1>
+      <div class="cardgrid">
+        <div class="card">
+          <div class="num">📱</div><h4>Endpoint &amp; Mobile Security</h4>
+          <div class="checklist" style="margin-top:.6rem;">
+            <div><span class="tick">✓</span>Works on Android, iOS, Windows and macOS</div>
+            <div><span class="tick">✓</span>Protects against new and existing threats</div>
+            <div><span class="tick">✓</span>Protection at home and on the go</div>
+            <div><span class="tick">✓</span>Award-winning protection with low battery impact</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="num">🔐</div><h4>Privacy &amp; Identity</h4>
+          <div class="checklist" style="margin-top:.6rem;">
+            <div><span class="tick">✓</span>Digital identity protection</div>
+            <div><span class="tick">✓</span>Dark web monitoring for leaked credentials</div>
+            <div><span class="tick">✓</span>VPN for public Wi-Fi</div>
+            <div><span class="tick">✓</span>Protects online accounts</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="num">🏠</div><h4>Family &amp; Home</h4>
+          <div class="checklist" style="margin-top:.6rem;">
+            <div><span class="tick">✓</span>Parental control for children's devices</div>
+            <div><span class="tick">✓</span>One subscription across 5 or 10 devices</div>
+            <div><span class="tick">✓</span>Extends to FNB Connect home and LTE routers</div>
+            <div><span class="tick">✓</span>Covers smart devices on the home network</div>
+          </div>
+        </div>
+      </div>
+      <div class="darkslab">
+        <div class="boxlabel">The OneApp: one interface to manage everything</div>
+        <div class="checklist" style="margin-top:.8rem;">
+          <div><span class="tick">✓</span>Customers can check security status and act quickly</div>
+          <div><span class="tick">✓</span>Always notified and in control</div>
+          <div><span class="tick">✓</span>Makes upgrades and upsells easier</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8 : ECOSYSTEM INTEGRATION -->
+    <section class="slide">
+      <span class="eyebrow gold">Integration</span>
+      <h1 class="sh">SDKs, APIs and a simple path into <span class="hlg">the FNB App and Connect stack</span></h1>
+      <p class="lede">Bitdefender provides SDK and API access across its full portfolio. A single REST API connects the Bitdefender products to FNB Connect's provisioning and billing, so a protection subscription can be switched on next to a bundle, a plan or a device order.</p>
+      <div class="cardgrid c4">
+        <div class="card"><h4>Endpoint &amp; Mobile Security</h4><p>Core malware, phishing &amp; ransomware protection.</p></div>
+        <div class="card"><h4>Endpoint Parental Control</h4><p>Family-safety module.</p></div>
+        <div class="card"><h4>Endpoint VPN</h4><p>Secure connection module.</p></div>
+        <div class="card"><h4>Account Privacy</h4><p>Identity &amp; account protection module.</p></div>
+      </div>
+      <div class="twocol" style="margin-top:1rem;">
+        <div class="card">
+          <div class="boxlabel gold">REST API</div>
+          <p style="font-size:.84rem;color:var(--muted);line-height:1.65;margin:0;">One REST API platform sits between the four Bitdefender modules and FNB Connect's systems, so no product needs its own integration. Subscriptions are provisioned against the customer's MSISDN or FNB profile and billed on the existing Connect account or in eBucks.</p>
+        </div>
+        <div class="card">
+          <div class="boxlabel gold">FNB Connect's Ecosystem</div>
+          <div class="checklist gold">
+            <div><span class="tick">✓</span>Subscription provisioning &amp; management in the FNB App</div>
+            <div><span class="tick">✓</span>Attach at checkout for plans, bundles and devices</div>
+            <div><span class="tick">✓</span>Integration in weeks, not quarters</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 9 : GO-TO-MARKET STRATEGY -->
+    <section class="slide">
+      <span class="eyebrow">Go-to-Market Strategy</span>
+      <h1 class="sh">Cybersecurity Strategic <span class="hl">Packaging Options</span></h1>
+      <p class="lede">This packaging framework is proven across mobile operators globally. It lets FNB Connect set monetisation higher or lower for each segment. The next page maps it onto FNB Connect's own base.</p>
+      <div class="cardgrid c4">
+        <div class="card">
+          <h4>Differentiation</h4><p>Basic security included for the whole base and promoted as part of the core service.</p>
+          <div class="miniPill" style="margin:.6rem 0 .7rem;">50–80% attach</div>
+          <div class="checklist" style="gap:.35rem;">
+            <div><span class="tick">→</span>Win cyber-aware customers from competing networks</div>
+            <div><span class="tick">→</span>Reduce base churn</div>
+            <div><span class="tick">→</span>Included in the plan</div>
+          </div>
+        </div>
+        <div class="card">
+          <h4>Technology Upgrade</h4><p>Embedded as a feature when customers move to new devices, eSIM or 5G.</p>
+          <div class="miniPill" style="margin:.6rem 0 .7rem;">20–50% attach</div>
+          <div class="checklist" style="gap:.35rem;">
+            <div><span class="tick">→</span>Accelerate technology migration</div>
+            <div><span class="tick">→</span>Upsell to higher-revenue technology</div>
+            <div><span class="tick">→</span>Included in the plan</div>
+          </div>
+        </div>
+        <div class="card">
+          <h4>Portfolio Up-tiering</h4><p>Hard-bundled into the upper part of the portfolio on top of core services.</p>
+          <div class="miniPill" style="margin:.6rem 0 .7rem;">5–20% attach</div>
+          <div class="checklist" style="gap:.35rem;">
+            <div><span class="tick">→</span>Gives customers more reasons to move up a tier</div>
+            <div><span class="tick">→</span>Included in the plan</div>
+          </div>
+        </div>
+        <div class="card">
+          <h4>Portfolio Add-on</h4><p>Sold as an optional add-on next to core services.</p>
+          <div class="miniPill" style="margin:.6rem 0 .7rem;">1–5% attach</div>
+          <div class="checklist" style="gap:.35rem;">
+            <div><span class="tick">→</span>Targeted campaigns and commercial activity in push and pull channels</div>
+          </div>
+        </div>
+      </div>
+      <p class="footnote">Packaging framework and attach-rate ranges per DSG's global Bitdefender go-to-market model for service providers.</p>
+    </section>
+
+    <!-- 10 : PACKAGING FOR FNB CONNECT -->
+    <section class="slide">
+      <span class="eyebrow">Packaging for FNB Connect</span>
+      <h1 class="sh">One product, <span class="hl">five ways into the base.</span></h1>
+      <p class="lede">FNB Connect is more than one customer type. Contract customers, top-up customers, prepaid customers, device buyers and customers who buy airtime for other networks each need a different reason to say yes. Working name: <strong style="color:var(--ink)">Connect Protect</strong>.</p>
+      <div class="seggrid">
+        <div class="seg"><div class="sh4"><h4>Postpaid &amp; contract plans</h4><span class="tag">Differentiation</span></div>
+          <p>Customers on a monthly plan who want the most complete package.</p>
+          <p class="how"><b>How:</b> Connect Protect included on selected plans and marketed as a reason to choose an FNB plan over a competing network's. Paired with the TERA warranty.</p></div>
+        <div class="seg o"><div class="sh4"><h4>Device buyers</h4><span class="tag">Technology Upgrade</span></div>
+          <p>64,000+ devices a year are sold on cash, 3–36 month payment plans or eBucks.</p>
+          <p class="how"><b>How:</b> Protection is offered at checkout and added to the device instalment, with VPN and dark web monitoring for a new phone. Paired with the GIGA warranty, covering up to R25,000.</p></div>
+        <div class="seg"><div class="sh4"><h4>Hybrid / top-up customers</h4><span class="tag">Up-tiering</span></div>
+          <p>Customers who top up a monthly base and respond to visible extra value.</p>
+          <p class="how"><b>How:</b> Bundled into the larger top-up bundles, giving customers a concrete reason to buy the next bundle up. Paired with the Entry warranty.</p></div>
+        <div class="seg o"><div class="sh4"><h4>Prepaid customers</h4><span class="tag">Add-on</span></div>
+          <p>Price-sensitive customers who decide on each purchase.</p>
+          <p class="how"><b>How:</b> A low-cost monthly add-on in the FNB App, paid in rands or eBucks and promoted around high-fraud periods. The Entry warranty alone, at R7 a month, is the lowest-cost way in. Travel eSIM credit gives prepaid customers a reason to choose and stay with FNB Connect (see Prepaid Growth).</p></div>
+        <div class="seg" style="grid-column:1/-1;"><div class="sh4"><h4>Connect customers on other networks</h4><span class="tag">Add-on · Upside</span></div>
+          <p>About 3 million customers buy connectivity through FNB⁶, but only about 1 million use an FNB SIM. Bitdefender protects the device, not the SIM, so the other ~2 million can buy it too.</p>
+          <p class="how"><b>How:</b> Offered in the FNB App next to airtime and data purchases, with the network the customer uses making no difference.</p></div>
+      </div>
+      <p class="footnote">Segment framing is DSG's proposal for discussion. FNB Connect's actual plan mix and channel data will refine it during scoping.</p>
+    </section>
+
+    <!-- 11 : FEATURE COMPARISON -->
+    <section class="slide">
+      <span class="eyebrow">Our Bitdefender Offering</span>
+      <h1 class="sh">Detailed Feature <span class="hl">Comparison</span></h1>
+      <div class="twocol">
+        <div class="card">
+          <div class="boxlabel">Basic</div>
+          <h4 style="font-size:1rem;margin-bottom:.5rem;">Bitdefender Mobile &amp; Computer Protection</h4>
+          <div class="miniPill">1 / 5 / 10 devices</div>
+          <div class="checklist" style="margin-top:1rem;">
+            <div><span class="tick">✓</span>Device Security</div>
+            <div><span class="tick">✓</span>Account Privacy</div>
+          </div>
+          <p style="font-size:.78rem;color:var(--muted);line-height:1.6;margin-top:.8rem;">Multi-platform protection across Android, iOS, macOS and Windows, including malware scanning, web protection, anti-phishing, ransomware defence and account privacy. Best fit: prepaid add-on and top-up bundles.</p>
+        </div>
+        <div class="card" style="border-color:rgba(0,169,172,.3);background:var(--redsoft);">
+          <div class="boxlabel">Advanced</div>
+          <h4 style="font-size:1rem;margin-bottom:.5rem;">Bitdefender Family Protection</h4>
+          <div class="miniPill">1 / 5 / 10 devices</div>
+          <div class="checklist" style="margin-top:1rem;">
+            <div><span class="tick">✓</span>Device Security</div>
+            <div><span class="tick">✓</span>Account Privacy</div>
+            <div><span class="tick">✓</span>Parental Control</div>
+            <div><span class="tick">✓</span>VPN</div>
+          </div>
+          <p style="font-size:.78rem;color:var(--muted);line-height:1.6;margin-top:.8rem;">Multi-platform protection across Android, iOS, macOS and Windows, including malware scanning, web protection, anti-phishing, ransomware defence, account privacy, parental control and VPN. Best fit: postpaid plans and device checkout.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 12 : PERSONAL CYBER WARRANTY (eINSURER) -->
+    <section class="slide">
+      <div class="wlogo"><img src="data:image/png;base64,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" alt="eInsurer"><span>A DSG division</span></div>
+      <span class="eyebrow gold">Personal Cyber Warranty · by eInsurer</span>
+      <h1 class="sh">Bitdefender stops the attack. <span class="hlg">eInsurer covers what still gets through.</span></h1>
+      <p class="lede">No security product stops every attack. eInsurer, DSG's personal cyber division, adds a <strong style="color:var(--ink)">Personal Cyber Warranty</strong> that reimburses customers for losses from a cyber incident. That gives Connect Protect a promise in two parts: Bitdefender works to prevent the attack, and the warranty pays out if something goes wrong anyway. Because FNB Connect's customers bank on the same phone, that second part matters.</p>
+      <div class="boxlabel gold">What the warranty covers</div>
+      <div class="cardgrid">
+        <div class="card"><div class="num" style="background:var(--goldsoft);color:var(--gold);">01</div><h4>Theft of Funds</h4><p>Reimburses money lost when a bank account, payment card or mobile wallet is hacked, plus the cost of investigating the incident and taking legal action against whoever was responsible.</p></div>
+        <div class="card"><div class="num" style="background:var(--goldsoft);color:var(--gold);">02</div><h4>Identity Theft</h4><p>Covers lost income, the cost of reapplying for credit and of reissuing ID documents, with up to six months of credit and identity monitoring.</p></div>
+        <div class="card"><div class="num" style="background:var(--goldsoft);color:var(--gold);">03</div><h4>Data Restoration &amp; Malware Clean-up</h4><p>Pays an IT expert to restore data and software, or replace damaged device parts, after an infection.</p></div>
+        <div class="card"><div class="num" style="background:var(--goldsoft);color:var(--gold);">04</div><h4>Cyberbullying, Stalking &amp; Reputation</h4><p>Covers removing harmful content, legal action and reputation support, with an upfront payment for trauma support and school relocation costs if needed.</p></div>
+        <div class="card"><div class="num" style="background:var(--goldsoft);color:var(--gold);">05</div><h4>Cyber Extortion</h4><p>Pays an expert to check whether a ransom demand is real, works to restore systems and data, and covers reasonable costs of resolving it.</p></div>
+        <div class="card"><div class="num" style="background:var(--goldsoft);color:var(--gold);">06</div><h4>Network Security Liability</h4><p>Covers investigation costs, and any legal costs or settlements, when a customer's compromised device harms someone else.</p></div>
+      </div>
+      <div class="boxlabel gold" style="margin-top:1.4rem;">Three tiers</div>
+      <div class="cardgrid">
+        <div class="card"><div class="miniPill">Entry</div><h4 style="margin-top:.6rem;font-size:1.3rem;">R7 <span style="font-size:.75rem;color:var(--muted);font-weight:600;">/mo</span></h4><p><strong style="color:var(--ink);">Cover up to R5,000.</strong> Core cyber cover at the lowest price point, ideal for prepaid.</p></div>
+        <div class="card" style="border-color:rgba(250,157,30,.45);background:var(--goldsoft);"><div class="miniPill" style="background:#fff;color:var(--gold);">TERA · Recommended</div><h4 style="margin-top:.6rem;font-size:1.3rem;">R12 <span style="font-size:.75rem;color:var(--muted);font-weight:600;">/mo</span></h4><p><strong style="color:var(--ink);">Cover up to R10,000.</strong> Adds identity-theft restoration. Suited to postpaid plans.</p></div>
+        <div class="card"><div class="miniPill">GIGA</div><h4 style="margin-top:.6rem;font-size:1.3rem;">R24 <span style="font-size:.75rem;color:var(--muted);font-weight:600;">/mo</span></h4><p><strong style="color:var(--ink);">Cover up to R25,000.</strong> Adds a priority fraud response. Suited to customers buying a new device.</p></div>
+      </div>
+      <p class="footnote">Cover areas per eInsurer's personal cyber product schedule. Tier pricing and cover limits are recommended retail per month from DSG's eInsurer VAS rate card. Full warranty terms, limits and exclusions are confirmed in the SOW.</p>
+    </section>
+
+    <!-- 13 : PREVENT + RECOVER BUNDLES -->
+    <section class="slide">
+      <span class="eyebrow gold">Prevent + Recover</span>
+      <h1 class="sh">Protection and warranty, <span class="hlg">packaged for each FNB Connect segment.</span></h1>
+      <p class="lede">Each segment from the packaging page gets a Bitdefender tier and a warranty tier matched to what that customer will pay and what they have at risk. The warranty also gives prepaid customers an entry point at R7 a month, below the price of any security subscription.</p>
+      <div style="overflow-x:auto;">
+      <table class="pt">
+        <tr><th>Segment</th><th>Bitdefender (Prevent)</th><th>eInsurer warranty (Recover)</th><th class="r">Recommended retail /mo</th></tr>
+        <tr><td>Postpaid &amp; contract</td><td>Security w/DIP · 1 Device · R45.90</td><td>TERA · up to R10,000 · R12.00</td><td class="r"><b>R 57.90</b></td></tr>
+        <tr><td>Device buyers</td><td>Security w/DWM &amp; VPN · 1 Device · R78.20</td><td>GIGA · up to R25,000 · R24.00</td><td class="r"><b>R 102.20</b></td></tr>
+        <tr><td>Hybrid / top-up</td><td>Security w/DIP · 1 Device · R45.90</td><td>Entry · up to R5,000 · R7.00</td><td class="r"><b>R 52.90</b></td></tr>
+        <tr><td>Prepaid</td><td>Optional upgrade to Security w/DIP · R45.90</td><td>Entry · up to R5,000 · R7.00</td><td class="r"><b>from R 7.00</b></td></tr>
+        <tr><td>Connect customers on other networks</td><td>Security w/DIP · 1 Device · R45.90</td><td>Entry · up to R5,000 · R7.00</td><td class="r"><b>R 52.90</b></td></tr>
+        <tr class="total"><td>Families (any segment)</td><td>Security w/DWM &amp; VPN · 5 Devices · R133.44</td><td>GIGA · up to R25,000 · R24.00</td><td class="r"><b>R 157.44</b></td></tr>
+      </table>
+      </div>
+      <div class="darkslab">
+        <div class="boxlabel">Why the warranty matters for a bank-owned network</div>
+        <div class="checklist" style="margin-top:.6rem;">
+          <div><span class="tick">✓</span>A promise customers understand straight away: "If you're hacked, you get your money back, up to your cover limit."</div>
+          <div><span class="tick">✓</span>Theft-of-funds and identity-theft cover speaks directly to the account-takeover risk described on the Why It Matters page.</div>
+          <div><span class="tick">✓</span>Customers get a reimbursement route that runs alongside FNB's own fraud processes.</div>
+          <div><span class="tick">✓</span>A second recurring line on every protected customer, sold in the same tap in the FNB App.</div>
+        </div>
+      </div>
+      <p class="footnote">Bitdefender prices are recommended retail (ZAR excl. VAT) from the Commercials page. Warranty prices are recommended retail from DSG's eInsurer VAS rate card. Bundle prices are the sum of the two and can be rounded to FNB Connect price points at launch.</p>
+    </section>
+
+    <!-- 14 : TRAVEL eSIM FOR PREPAID -->
+    <section class="slide">
+      <span class="eyebrow navy">Travel eSIM · from DSG's MVNE division</span>
+      <h1 class="sh">Travel eSIM: <span class="hl">a reason to choose FNB Connect prepaid.</span></h1>
+      <p class="lede">FNB Connect has already proven that customers want travel data. Its global travel eSIM is growing <strong style="color:var(--ink)">20% month on month</strong>, and eSIM is now 10% of monthly SIM sales⁷. DSG's Travel eSIM brings that demand into prepaid. A prepaid customer can buy international data the way they buy airtime, in the FNB App, with rands or eBucks, and keep their FNB number live while abroad.</p>
+      <div class="twocol">
+        <div class="card" style="border-color:rgba(0,169,172,.3);background:var(--redsoft);">
+          <div class="miniPill" style="background:#fff;color:var(--red);">Annual Credit Pack</div>
+          <h4 style="margin-top:.7rem;font-size:1.5rem;">R249.23 <span style="font-size:.78rem;color:var(--muted);font-weight:600;">/ year · R216.72 excl. VAT</span></h4>
+          <p style="margin-bottom:.8rem;">Bought once and drawn down across trips. That works out to about R21 a month, which suits a customer who travels occasionally.</p>
+          <div class="checklist">
+            <div><span class="tick">✓</span>Data in 150+ countries</div>
+            <div><span class="tick">✓</span>Valid all year, across trips</div>
+            <div><span class="tick">✓</span>Can be paid for with eBucks</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="miniPill">Pay-As-You-Go</div>
+          <h4 style="margin-top:.7rem;font-size:1.5rem;">Top up per trip</h4>
+          <p style="margin-bottom:.8rem;">For a once-off trip, customers buy only the data they need, when they need it, like a prepaid airtime top-up.</p>
+          <div class="checklist">
+            <div><span class="tick">✓</span>Activated in the app before departure, connected on landing</div>
+            <div><span class="tick">✓</span>Dual eSIM keeps the FNB Connect number active</div>
+            <div><span class="tick">✓</span>No roaming bill shock, no airport kiosk</div>
+          </div>
+        </div>
+      </div>
+      <div class="darkslab">
+        <div class="boxlabel">Why it belongs in prepaid</div>
+        <div class="checklist" style="margin-top:.6rem;">
+          <div><span class="tick">✓</span><span><b style="color:#fff;">Prepaid customers travel too</b>, for cross-border work, family visits and regional trips. Today that spend often goes to roaming bundles from other networks, global eSIM apps or a foreign SIM.</span></div>
+          <div><span class="tick">✓</span><span><b style="color:#fff;">It works the way prepaid customers already buy.</b> There is no contract or credit check, only a top-up when it's needed.</span></div>
+          <div><span class="tick">✓</span><span><b style="color:#fff;">The number stays FNB Connect's.</b> The customer keeps receiving calls and FNB App approvals abroad, so the SIM isn't swapped out when they travel.</span></div>
+        </div>
+      </div>
+      <p class="footnote">Pricing per DSG's live Travel eSIM VAS rate card. Regional and global pack options can be configured at launch. Travel eSIM works alongside FNB Connect's existing travel eSIM offering, as an extension into prepaid or as the platform behind it, depending on what FNB Connect prefers. 7. ITWeb, 25 Nov 2025.</p>
+    </section>
+
+    <!-- 15 : THE PREPAID GROWTH ENGINE -->
+    <section class="slide">
+      <span class="eyebrow">Prepaid Growth</span>
+      <h1 class="sh">Three products, <span class="hl">one prepaid growth engine.</span></h1>
+      <p class="lede">Prepaid is the largest part of most South African mobile bases and the hardest to hold. Each top-up is a fresh decision. Combined, Bitdefender, the eInsurer warranty and Travel eSIM give a prepaid customer reasons to choose FNB Connect, top up more and keep topping up.</p>
+      <div class="boxlabel">A prepaid ladder, from R7 a month</div>
+      <div class="cardgrid">
+        <div class="card"><div class="miniPill">Prepaid Starter</div><h4 style="margin-top:.6rem;font-size:1.2rem;">R7 <span style="font-size:.72rem;color:var(--muted);font-weight:600;">/mo</span></h4><p><strong style="color:var(--ink);">eInsurer Entry warranty</strong>, with cover up to R5,000. It's the lowest-cost way into the range and sells on one line: "if you're hacked, you get your money back."</p></div>
+        <div class="card" style="border-color:rgba(0,169,172,.3);background:var(--redsoft);"><div class="miniPill" style="background:#fff;color:var(--red);">Prepaid Protect</div><h4 style="margin-top:.6rem;font-size:1.2rem;">R52.90 <span style="font-size:.72rem;color:var(--muted);font-weight:600;">/mo</span></h4><p><strong style="color:var(--ink);">Bitdefender Security w/DIP</strong> (1 device) plus the <strong style="color:var(--ink);">Entry warranty</strong>. It prevents the attack and pays out if one gets through.</p></div>
+        <div class="card" style="border-color:rgba(250,157,30,.45);background:var(--goldsoft);"><div class="miniPill" style="background:#fff;color:var(--gold);">Prepaid Traveller</div><h4 style="margin-top:.6rem;font-size:1.2rem;">R249.23 <span style="font-size:.72rem;color:var(--muted);font-weight:600;">/yr + R7/mo</span></h4><p><strong style="color:var(--ink);">Travel eSIM Annual Credit Pack</strong> plus the <strong style="color:var(--ink);">Entry warranty</strong>, so the customer travels with data and cover.</p></div>
+      </div>
+      <div class="boxlabel" style="margin-top:1.2rem;">Four levers that grow prepaid as a whole</div>
+      <div class="seggrid">
+        <div class="seg"><div class="sh4"><h4>1 · Acquire</h4><span class="tag">New SIMs &amp; eSIMs</span></div>
+          <p class="how">New prepaid SIMs and eSIMs come with a first month of the Entry warranty and a small travel data credit. Customers have a reason to pick FNB Connect over another network's prepaid starter pack.</p></div>
+        <div class="seg o"><div class="sh4"><h4>2 · Grow top-up value</h4><span class="tag">Recharge-linked</span></div>
+          <p class="how">Top up above a set monthly amount and the Entry warranty is included that month. FNB Connect sets the threshold so the extra top-up value comfortably covers the R7 cost.</p></div>
+        <div class="seg"><div class="sh4"><h4>3 · Retain</h4><span class="tag">Stay active</span></div>
+          <p class="how">Protection, cover and unused travel credit stay live only while the prepaid number stays active. Lapsing means losing them, which gives customers a reason to keep topping up.</p></div>
+        <div class="seg o"><div class="sh4"><h4>4 · Reward</h4><span class="tag">eBucks</span></div>
+          <p class="how">Every product can be paid for with eBucks, and travel credit can be offered as an eBucks reward. This ties prepaid spend to FNB's wider relationship with the customer.</p></div>
+      </div>
+      <p class="footnote">Ladder prices are recommended retail from DSG's Bitdefender (excl. VAT), eInsurer and Travel eSIM rate cards. Threshold levels and launch offers are set by FNB Connect and funded from the incremental prepaid revenue they generate. They are confirmed during scoping.</p>
+    </section>
+
+    <!-- 16 : IN THE FNB APP (MOCKUP) -->
+    <section class="slide">
+      <span class="eyebrow gold">The Customer Experience</span>
+      <h1 class="sh">Where customers already manage their SIM: <span class="hlg">the FNB App.</span></h1>
+      <div class="mockwrap">
+        <div class="phone"><div class="screen">
+          <div class="scrtop">
+            <div class="stat-bar"><span>09:41</span><span>FNB Connect · 5G</span></div>
+            <div class="tt"><img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMzNweCIgaGVpZ2h0PSIzM3B4IiB2aWV3Qm94PSIwIDAgMzMgMzMiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8dGl0bGU+aGVhZGVyLWxvZ29fbHJnPC90aXRsZT4KICAgIDxnIGlkPSJQYWdlLTEiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPgogICAgICAgIDxnIGlkPSJoZWFkZXItbG9nb19scmciIGZpbGwtcnVsZT0ibm9uemVybyI+CiAgICAgICAgICAgIDxnIGlkPSJpY29ucy9yZXNlcnZlZC9wYXltZW50cyI+CiAgICAgICAgICAgICAgICA8cGF0aCBkPSJNMzMsMTYuNSBDMzMsMjUuNjEyNzIwOCAyNS42MTI3MjA4LDMzIDE2LjUsMzMgQzcuMzg3Mjc5MTcsMzMgMCwyNS42MTI3MjA4IDAsMTYuNSBDMCw3LjM4NzI3OTE3IDcuMzg3Mjc5MTcsMCAxNi41LDAgQzI1LjYxMjcyMDgsMCAzMyw3LjM4NzI3OTE3IDMzLDE2LjUiIGlkPSJGaWxsLTEiIGZpbGw9IiMwMEE5QUMiPjwvcGF0aD4KICAgICAgICAgICAgICAgIDxwYXRoIGQ9Ik0yOC40MjU3NDE3LDE2LjUgQzI4LjQyNTc0MTcsMjMuMDg2Mzg3NSAyMy4wODYzODc1LDI4LjQyNTc0MTcgMTYuNSwyOC40MjU3NDE3IEM5LjkxMzYxMjUsMjguNDI1NzQxNyA0LjU3NDI1ODMzLDIzLjA4NjM4NzUgNC41NzQyNTgzMywxNi41IEM0LjU3NDI1ODMzLDkuOTEzNjEyNSA5LjkxMzYxMjUsNC41NzQyNTgzMyAxNi41LDQuNTc0MjU4MzMgQzIzLjA4NjM4NzUsNC41NzQyNTgzMyAyOC40MjU3NDE3LDkuOTEzNjEyNSAyOC40MjU3NDE3LDE2LjUiIGlkPSJGaWxsLTMiIGZpbGw9IiNGQTlEMUUiPjwvcGF0aD4KICAgICAgICAgICAgICAgIDxwYXRoIGQ9Ik0xNi41LDI3LjkzNTY4MjUgQzEwLjE4NDIxMjUsMjcuOTM1NjgyNSA1LjA2NDI2MjUsMjIuODE1NzMyNSA1LjA2NDI2MjUsMTYuNDk5OTkwOCBDNS4wNjQyNjI1LDEwLjE4NDI0OTIgMTAuMTg0MjEyNSw1LjA2NDI5OTE3IDE2LjUsNS4wNjQyOTkxNyBDMjIuODE1Nzg3NSw1LjA2NDI5OTE3IDI3LjkzNTczNzUsMTAuMTg0MjQ5MiAyNy45MzU3Mzc1LDE2LjQ5OTk5MDggQzI3LjkzNTczNzUsMjIuODE1NzMyNSAyMi44MTU3ODc1LDI3LjkzNTY4MjUgMTYuNSwyNy45MzU2ODI1IE0xNi41LDMuOTIwODQ5MTcgQzkuNTUyNzIwODMsMy45MjA4NDkxNyAzLjkyMDgxMjUsOS41NTI3MTE2NyAzLjkyMDgxMjUsMTYuNDk5OTkwOCBDMy45MjA4MTI1LDIzLjQ0NzI3IDkuNTUyNzIwODMsMjkuMDc5MTc4MyAxNi41LDI5LjA3OTE3ODMgQzIzLjQ0NzI3OTIsMjkuMDc5MTc4MyAyOS4wNzkxODc1LDIzLjQ0NzI3IDI5LjA3OTE4NzUsMTYuNDk5OTkwOCBDMjkuMDc5MTg3NSw5LjU1MjcxMTY3IDIzLjQ0NzI3OTIsMy45MjA4NDkxNyAxNi41LDMuOTIwODQ5MTciIGlkPSJGaWxsLTUiIGZpbGw9IiNGRkZGRkYiPjwvcGF0aD4KICAgICAgICAgICAgICAgIDxwYXRoIGQ9Ik0xOC4xMjIxODM4LDE3LjAwMzc4NjMgQzE3LjQwNzUwNDYsMTcuODQ4NTQwNCAxNi44NDM1NzEzLDE4Ljg0NDMxNTQgMTYuNTAwMDA0NiwxOS45MzA2NTcxIEMxNi4xNTY0Mzc5LDE4Ljg0NDMxNTQgMTUuNTkyNTA0NiwxNy44NDg1NDA0IDE0Ljg3NzgyNTQsMTcuMDAzNzg2MyBMMTQuODc3ODcxMywxNy4wMDM3ODYzIEMxNC44NzQwMjEzLDE2Ljk5OTI0ODggMTQuODcwMjE3MSwxNi45OTQ2MTk2IDE0Ljg2NjMyMTMsMTYuOTkwMDgyMSBMMTYuNTAwMDA0NiwxNi45OTAwODIxIEwxOC4xMzM2ODc5LDE2Ljk5MDA4MjEgQzE4LjEyOTc5MjEsMTYuOTk0NjE5NiAxOC4xMjU5ODc5LDE2Ljk5OTI0ODggMTguMTIyMTM3OSwxNy4wMDM3ODYzIEwxOC4xMjIxODM4LDE3LjAwMzc4NjMgWiBNMTYuNTAwMDA0NiwxNS4yNDc0OTg3IEMxNS42NDQyOTYzLDE1LjI0NzYzNjIgMTQuNzgzNzc1NCwxNS4yNjkxNzc5IDEzLjkyMzQ4MzcsMTUuMzExMzkwNCBDMTMuNTQ4MDYyOSwxNC44MTMwOTA0IDEzLjA5NTU5NjIsMTQuMzc4MDQwNCAxMi41ODMwODc5LDE0LjAyNDcxMTIgQzEzLjg3NjM2NzEsMTMuOTMyOTA3MSAxNS4xODI1MjU0LDEzLjg4NjExMTIgMTYuNTAwMDA0NiwxMy44ODYxMTEyIEMxOS4xMDc4NzU0LDEzLjg4NjExMTIgMjEuNjcxNTYyOSwxNC4wNjkxNjk2IDI0LjE3ODE4NzksMTQuNDIyNDUyOSBMMjQuMzE5MzU0NiwxMy4wNzk0OTA0IEMyMS43OTQ4NTQ2LDEyLjU3MzEyMzcgMTkuMTc5NTU4OCwxMi4zMDY4Nzc5IDE2LjUwMDAwNDYsMTIuMzA2ODc3OSBDMTMuODIwNDUwNCwxMi4zMDY4Nzc5IDExLjIwNTE1NDYsMTIuNTczMTIzNyA4LjY4MDY1NDU4LDEzLjA3OTQ5MDQgTDguODIxODIxMjUsMTQuNDIyNDUyOSBDOS40NDc1Mzc5MiwxNC4zMzQyNjk2IDEwLjA3Njg3NTQsMTQuMjU2NzY1NCAxMC43MDk1MTI5LDE0LjE5MDAzMjEgQzEwLjgyMTk4NzksMTQuMTc3MTA3MSAxMC45MTI4Mjk2LDE0LjIwNzQ5NDYgMTAuOTYyODc5NiwxNC4yMjk0NDg3IEMxMS41NTM4MDg3LDE0LjQ4ODQ1MjkgMTIuMDY0MzQ2MiwxNC44OTU0MDcxIDEyLjQ1MjE4NzksMTUuNDA0MDE5NiBDMTAuODQ1MDg3OSwxNS41MjczNTcxIDkuMjQ4NDgzNzUsMTUuNzIyODgyMSA3LjY5NDkxNzA4LDE1Ljk4ODQ4NjIgTDcuODQxNTgzNzUsMTcuMzc5ODk0NiBDOS4wODc0NzEyNSwxNy4yNzE3Mjc5IDEwLjYxMTM4MzcsMTcuMTU3MDk4NyAxMC45MzMwODc5LDE3LjE1MDcyNzkgQzEyLjc1OTIyNTQsMTcuMTE0NTE5NiAxNC4yNzUzMDA0LDE4LjM2NzkyMzcgMTQuNzEyMjc1NCwyMC4xNDU3MDcxIEMxNS4wMTQxMzM3LDIxLjQxNTUxOTYgMTQuODU0NDA0NiwyMy4wNTY0OTA0IDE0LjgxMTgyNTQsMjMuODUxNDY5NiBMMTYuNTAwMDA0NiwyMy44NTE0Njk2IEwxOC4xODgxODM4LDIzLjg1MTQ2OTYgQzE4LjE0NTYwNDYsMjMuMDU2NDkwNCAxNy45ODU4NzU0LDIxLjQxNTUxOTYgMTguMjg3Njg3OSwyMC4xNDU3MDcxIEMxOC43MjQ3MDg3LDE4LjM2NzkyMzcgMjAuMjQwNzgzNywxNy4xMTQ1MTk2IDIyLjA2NjkyMTMsMTcuMTUwNzI3OSBDMjIuMzg4NjI1NCwxNy4xNTcwOTg3IDIzLjkxMjUzNzksMTcuMjcxNzI3OSAyNS4xNTg0MjU0LDE3LjM3OTg5NDYgTDI1LjMwNTA5MjEsMTUuOTg4NDg2MiBDMjIuNDQ4MjA4NywxNS41MDAwODYyIDE5LjQ0NTg5NjIsMTUuMjQ4MDQ4NyAxNi41MDAwMDQ2LDE1LjI0NzQ5ODcgTDE2LjUwMDAwNDYsMTUuMjQ3NDk4NyBaIE0xNi41MDAwMDQ2LDkuODAxOTgwODMgQzE0LjYwNjQ5MjEsOS44MDE5ODA4MyAxMi43NTk2Mzc5LDEwLjAwMTQ0NzUgMTAuOTc5MTA0NiwxMC4zODAzMDU4IEwxMS4xMDg5MDQ2LDExLjYxNTYwNTggQzEyLjg2Nzk0MjEsMTEuMzUzNjY4MyAxNC42NjgwOTIxLDExLjIxNzc3MjUgMTYuNTAwMDA0NiwxMS4yMTc3NzI1IEMxOC4zMzE5MTcxLDExLjIxNzc3MjUgMjAuMTMyMDY3MSwxMS4zNTM2NjgzIDIxLjg5MTEwNDYsMTEuNjE1NjA1OCBMMjIuMDIwOTA0NiwxMC4zODAzMDU4IEMyMC4yNDAzNzEzLDEwLjAwMTQ0NzUgMTguMzkzNTE3MSw5LjgwMTk4MDgzIDE2LjUwMDAwNDYsOS44MDE5ODA4MyIgaWQ9IkZpbGwtOSIgZmlsbD0iIzAwMDAwMCI+PC9wYXRoPgogICAgICAgICAgICA8L2c+CiAgICAgICAgPC9nPgogICAgPC9nPgo8L3N2Zz4=" alt="">Connect Protect</div>
+            <div class="sub">082 ••• 4471 · Smart Plan</div>
+          </div>
+          <div class="scrbody">
+            <div class="sc"><div class="row"><div><div class="k">Protection</div><div class="v"><span class="shield">●</span> Active</div></div><div class="tog"></div></div></div>
+            <div class="sc"><div class="k">Devices protected</div><div class="v">3 of 5</div><div class="meter"><i></i></div></div>
+            <div class="sc"><div class="row"><div><div class="k">Threats blocked · this month</div><div class="v">14</div></div><div style="text-align:right;"><div class="k">Phishing links</div><div class="v">9</div></div></div></div>
+            <div class="sc"><div class="k">Dark web monitoring</div><div class="v" style="font-size:11.5px;">No new leaks for your email or ID</div></div>
+            <div class="sc" style="border-color:#FA9D1E;background:#FFF6EA;"><div class="row"><div><div class="k">Cyber Warranty · eInsurer TERA</div><div class="v" style="font-size:11.5px;">Covered up to R10,000</div></div><div class="shield" style="color:#C26A00;">✓</div></div></div>
+            <div class="ebtn">Add 2 more devices · pay with eBucks</div>
+            <div class="scrnote">Illustrative concept screen</div>
+          </div>
+        </div></div>
+        <div class="callouts">
+          <div class="callout"><div class="cn">1</div><div><h4>Next to the SIM, not in a separate app store hunt</h4><p>Connect Protect sits in the FNB Connect section of the FNB App, where customers already buy bundles and manage their numbers.</p></div></div>
+          <div class="callout"><div class="cn">2</div><div><h4>Visible value every month</h4><p>Threats blocked and dark web alerts show customers what they are paying for, which supports retention and the ARPU uplift partners report.</p></div></div>
+          <div class="callout"><div class="cn">3</div><div><h4>Upgrade without leaving the app</h4><p>Moving from 1 to 5 or 10 devices, adding VPN or upgrading to a higher warranty tier is one tap, and can be paid in rands or eBucks.</p></div></div>
+          <div class="callout"><div class="cn">4</div><div><h4>FNB-branded journey</h4><p>FNB Connect owns the front end. Bitdefender's protection runs behind it through the SDK and API.</p></div></div>
+        </div>
+      </div>
+      <p class="footnote">Concept mockup for discussion. The final user experience will be designed with FNB's digital team against the FNB App design system.</p>
+    </section>
+
+    <!-- 13 : BUSINESS BENEFITS -->
+    <section class="slide">
+      <span class="eyebrow">Business Benefits</span>
+      <h1 class="sh">Five Reasons This Strengthens <span class="hl">FNB Connect's Customer Relationship</span></h1>
+      <div class="cardgrid">
+        <div class="card"><div class="num">01</div><h4>Boost ARPU</h4><p>Bitdefender partners consistently report about 8% ARPU growth from the higher perceived value of their plans. That would add to the 8% ARPU growth FNB Connect has already reported.</p></div>
+        <div class="card"><div class="num">02</div><h4>Less Churn</h4><p>Protected customers are less likely to port out, and protection gives prepaid customers a reason to keep topping up.</p></div>
+        <div class="card"><div class="num">03</div><h4>Fewer Calls, Less Fraud</h4><p>Fewer infected devices mean fewer support calls and fewer compromised handsets reaching FNB's fraud teams.</p></div>
+        <div class="card"><div class="num">04</div><h4>Higher Customer NPS</h4><p>Partners report a Net Promoter Score of 60+ among protected customers.</p></div>
+        <div class="card"><div class="num">05</div><h4>Upsell Opportunities</h4><p>Consumer security needs keep changing. Through Digital Resilience's portfolio, including the Personal Cyber Warranty, FNB Connect can keep adding new products.</p></div>
+      </div>
+    </section>
+
+    <!-- 14 : MARKETING & EXPANSION SUPPORT -->
+    <section class="slide">
+      <span class="eyebrow gold">Marketing &amp; Go-to-Market</span>
+      <h1 class="sh">Craft Your Own <span class="hlg">Cybersecurity Offering</span></h1>
+      <p class="lede">Digital Resilience will work with FNB Connect on a joint go-to-market and launch plan. That includes campaigns through the FNB App, eBucks and the Connect device store. The aim is the best return for FNB Connect and the most value for its customers.</p>
+      <div class="boxlabel gold">What You Can Expect from Digital Resilience</div>
+      <div class="checklist gold">
+        <div><span class="tick">⚡</span>Ongoing programmes that keep improving the numbers</div>
+        <div><span class="tick">⚡</span>Full go-to-market support, from strategy to execution</div>
+        <div><span class="tick">⚡</span>Training and portal access for your team</div>
+        <div><span class="tick">⚡</span>An end-to-end customer journey</div>
+        <div><span class="tick">⚡</span>A solution designed to generate revenue</div>
+        <div><span class="tick">⚡</span>Expert support for the launch campaign</div>
+      </div>
+      <h2 class="ssh">It's Time to Expand</h2>
+      <p class="lede" style="margin-bottom:1rem;">We work closely with every partner and support them through the whole process of bringing a product to market.</p>
+      <div class="pillrow">
+        <span class="miniPill">→ Tech &amp; development</span>
+        <span class="miniPill">→ Subscriber management</span>
+        <span class="miniPill">→ Marketing support</span>
+        <span class="miniPill">→ Analytics</span>
+        <span class="miniPill">→ Support &amp; maintenance</span>
+      </div>
+    </section>
+
+    <!-- 15 : CUSTOMER SUPPORT STRUCTURE -->
+    <section class="slide">
+      <span class="eyebrow">Support</span>
+      <h1 class="sh">Customer Support <span class="hl">Structure</span></h1>
+      <p class="lede">Bitdefender's own engineering team handles all technical product enquiries, with a clear escalation path. For a smooth experience, we recommend FNB Connect's existing support channels take Tier 1 and Tier 2. Full training is included.</p>
+      <div class="cardgrid">
+        <div class="card"><div class="miniPill">FNB Connect</div><h4 style="margin-top:.6rem;">Tier 1</h4><p>Front-line support for common issues such as installation help, removal tool guidance and other documented fixes.</p></div>
+        <div class="card"><div class="miniPill">FNB Connect</div><h4 style="margin-top:.6rem;">Tier 2</h4><p>Cases escalated from Tier 1, usually more complex ones such as third-party software conflicts or compatibility problems.</p></div>
+        <div class="card"><div class="miniPill">Bitdefender</div><h4 style="margin-top:.6rem;">Tier 3</h4><p>Technical escalations that need engineering input, such as product defects or design-level issues.</p></div>
+      </div>
+      <div class="darkslab">
+        <div class="boxlabel">General Support Rules</div>
+        <p style="color:#DDEBEB;font-size:.85rem;line-height:1.7;margin:0;">Front-line help, including billing, payment and eBucks enquiries, sits with FNB Connect. FNB Connect also owns anything about how Bitdefender products are delivered through the FNB App. Product-level technical matters stay with Bitdefender. Warranty claims are assessed by eInsurer's claims team, and FNB Connect directs customers to it. All escalations route back through FNB Connect.</p>
+      </div>
+    </section>
+
+    <!-- 16 : COMMERCIALS & PRICING -->
+    <section class="slide">
+      <span class="eyebrow">Commercials</span>
+      <h1 class="sh">Detailed Pricing &amp; <span class="hl">Commercials</span></h1>
+      <div class="pillrow">
+        <span class="miniPill" style="background:var(--redsoft);color:var(--red);font-weight:800;">DSG Revenue Share</span>
+        <span class="miniPill">DSG Standard Pricing</span>
+        <span class="miniPill">DSG Wholesale Pricing</span>
+      </div>
+      <p class="lede" style="margin-top:1rem;margin-bottom:.6rem;">Local Wholesale Pricing, Monthly (ZAR). Revenue Share: 50% / 50% · ROE: 1 USD = R17.</p>
+      <div style="overflow-x:auto;">
+      <table class="pt">
+        <tr>
+          <th>Description</th>
+          <th class="r">Recommended (USD excl. VAT)</th>
+          <th class="r">ROE</th>
+          <th class="r">Recommended (ZAR excl. VAT)</th>
+          <th class="r">50% Rev Share (USD)</th>
+          <th class="r">50% Rev Share (ZAR)</th>
+        </tr>
+        <tr><td>BD Security w/DIP · 1 Device</td><td class="r">$2.70</td><td class="r">17</td><td class="r">R 45.90</td><td class="r">$1.35</td><td class="r">R 22.96</td></tr>
+        <tr><td>BD Security w/DIP · 5 Devices</td><td class="r">$5.95</td><td class="r">17</td><td class="r">R 101.14</td><td class="r">$2.98</td><td class="r">R 50.57</td></tr>
+        <tr><td>BD Security w/DIP · 10 Devices</td><td class="r">$8.50</td><td class="r">17</td><td class="r">R 144.50</td><td class="r">$4.25</td><td class="r">R 72.26</td></tr>
+        <tr><td>BD Security w/DWM &amp; VPN · 1 Device</td><td class="r">$4.60</td><td class="r">17</td><td class="r">R 78.20</td><td class="r">$2.30</td><td class="r">R 39.10</td></tr>
+        <tr><td>BD Security w/DWM &amp; VPN · 5 Devices</td><td class="r">$7.85</td><td class="r">17</td><td class="r">R 133.44</td><td class="r">$3.92</td><td class="r">R 66.73</td></tr>
+        <tr><td>BD Security w/DWM &amp; VPN · 10 Devices</td><td class="r">$13.05</td><td class="r">17</td><td class="r">R 221.86</td><td class="r">$6.53</td><td class="r">R 110.93</td></tr>
+        <tr class="total"><td>Dashboard Activation &amp; Set Up (Once Off)</td><td class="r">$2,500.00</td><td class="r">17</td><td class="r">R 42,500.00</td><td class="r">—</td><td class="r">—</td></tr>
+      </table>
+      </div>
+      <p class="footnote">DIP = Digital Identity Protection. DWM = Dark Web Monitoring. All prices exclude Tax &amp; Duties. ROE: 1 USD = R17 (calculated on the last day of invoice). Figures per DSG's live Bitdefender wholesale rate card.</p>
+      <div class="boxlabel gold" style="margin-top:1.4rem;">eInsurer Personal Cyber Warranty: Monthly (ZAR)</div>
+      <div style="overflow-x:auto;">
+      <table class="pt">
+        <tr><th>Tier</th><th>Adds</th><th class="r">Cover limit</th><th class="r">Recommended retail /mo</th></tr>
+        <tr><td>Entry</td><td>Core cyber cover</td><td class="r">R 5,000</td><td class="r">R 7.00</td></tr>
+        <tr><td>TERA</td><td>+ identity-theft restoration</td><td class="r">R 10,000</td><td class="r">R 12.00</td></tr>
+        <tr><td>GIGA</td><td>+ priority fraud response</td><td class="r">R 25,000</td><td class="r">R 24.00</td></tr>
+      </table>
+      </div>
+      <p class="footnote">Per DSG's eInsurer VAS rate card. FNB Connect's share of warranty sales, and the warranty terms and exclusions, are confirmed in the SOW. No set-up fee applies to the warranty. It is activated through the same provisioning integration.</p>
+      <div class="boxlabel navy" style="margin-top:1.4rem;">Travel eSIM (DSG MVNE)</div>
+      <div style="overflow-x:auto;">
+      <table class="pt">
+        <tr><th>Product</th><th>Coverage</th><th class="r">Billing</th><th class="r">Recommended retail</th><th class="r">Excl. VAT</th></tr>
+        <tr><td>Travel eSIM Annual Credit Pack</td><td>Data in 150+ countries</td><td class="r">Once a year</td><td class="r">R 249.23</td><td class="r">R 216.72</td></tr>
+        <tr><td>Travel eSIM Pay-As-You-Go</td><td>Per-trip top-ups</td><td class="r">Per purchase</td><td class="r">Per rate card</td><td class="r">—</td></tr>
+      </table>
+      </div>
+      <p class="footnote">Per DSG's live Travel eSIM VAS rate card. The annual charge is shown in full, not spread into a monthly figure. FNB Connect's share of Travel eSIM sales is confirmed in the SOW.</p>
+    </section>
+
+    <!-- 17 : FINANCIAL MODEL - KEY METRICS -->
+    <section class="slide">
+      <span class="eyebrow">Financial Model</span>
+      <h1 class="sh">The economics of <span class="hl">1 million active SIMs and beyond</span></h1>
+      <p class="lede">The model is built on FNB Connect's published scale, the segments on the packaging page, and DSG's Bitdefender wholesale pricing and attach-rate benchmarks.</p>
+      <div class="kpigrid">
+        <div class="kpicell"><div class="kl">Active FNB Connect SIMs</div><div class="kv red">1,000,000</div><div class="ks">12 months to June 2026⁶</div></div>
+        <div class="kpicell"><div class="kl">Customers using Connect services</div><div class="kv navy">~3,000,000</div><div class="ks">Including those buying for other networks. Bitdefender protects the device, so all are addressable⁶</div></div>
+        <div class="kpicell"><div class="kl">Value per Attached Customer</div><div class="kv gold">R22.96 – R39.10 /mo</div><div class="ks">FNB Connect's 50% share on the entry DIP tier and the DWM &amp; VPN 1-device tier</div></div>
+        <div class="kpicell"><div class="kl">Revenue Share Structure</div><div class="kv navy">50 / 50</div><div class="ks">DSG's standard VAS revenue-share model</div></div>
+        <div class="kpicell"><div class="kl">Device Sales to Attach To</div><div class="kv red">64,000+ / R635M</div><div class="ks">Device sales a year across 400+ device types⁷</div></div>
+        <div class="kpicell"><div class="kl">Time to Revenue</div><div class="kv gold">~8 Weeks</div><div class="ks">From signature to full API/SDK integration</div></div>
+        <div class="kpicell"><div class="kl">1% of Active SIMs</div><div class="kv navy">10,000</div><div class="ks">Protected customers at 1% penetration ≈ R2.76M a year</div></div>
+        <div class="kpicell"><div class="kl">Current ARPU Momentum</div><div class="kv red">+8%</div><div class="ks">FNB Connect ARPU growth, with data usage up more than 85%⁶</div></div>
+      </div>
+      <p class="footnote">The once-off integration cost is low. This is an API and app attach project, not a network build, with no new capex or licences.<br>
+      6. BusinessDay, 30 Sep 2026: <a href="https://www.businessday.co.za/companies/company-strategy/2026-09-30-how-mobile-services-are-gaining-traction-at-fnb/" target="_blank" rel="noopener">businessday.co.za</a>. FirstRand's interim results to 31 Dec 2025 also cite about three million customers using FNB Connect services: <a href="https://www.firstrand.co.za/media/investors/reports/fsr-analysis-of-financial-results-dec-2025.pdf" target="_blank" rel="noopener">firstrand.co.za</a>. 7. ITWeb, 25 Nov 2025: <a href="https://www.itweb.co.za/article/fnb-connect-reaches-1m-active-subscribers/nWJad7bNGXj7bjO1" target="_blank" rel="noopener">itweb.co.za</a>.</p>
+    </section>
+
+    <!-- 18 : BUSINESS CASE - SEGMENT MODEL -->
+    <section class="slide">
+      <span class="eyebrow">Business Case</span>
+      <h1 class="sh">A 5-year scenario, <span class="hl">built segment by segment</span></h1>
+      <p class="lede">Each segment from the packaging page has its own Year-5 attach rate, set conservatively against the framework ranges. The best and worst cases scale the whole base case by 2× and 0.4×. Years 1–4 ramp on one curve (40 / 60 / 76 / 90 / 100% of Year 5), so every figure traces back to the table below.</p>
+      <div style="overflow-x:auto;">
+      <table class="pt">
+        <tr><th>Segment (base case, Year 5)</th><th class="r">Base</th><th class="r">Attach</th><th class="r">Protected</th><th class="r">FNB share /mo</th><th class="r">Annual revenue</th></tr>
+        <tr><td>Postpaid &amp; contract · Differentiation</td><td class="r">150,000</td><td class="r">30%</td><td class="r">45,000</td><td class="r">R 22.96</td><td class="r">R 12.4M</td></tr>
+        <tr><td>Hybrid / top-up · Up-tiering</td><td class="r">250,000</td><td class="r">10%</td><td class="r">25,000</td><td class="r">R 22.96</td><td class="r">R 6.9M</td></tr>
+        <tr><td>Prepaid · Add-on</td><td class="r">600,000</td><td class="r">3%</td><td class="r">18,000</td><td class="r">R 22.96</td><td class="r">R 5.0M</td></tr>
+        <tr><td>Device buyers (annual sales) · Tech Upgrade</td><td class="r">64,000</td><td class="r">30%</td><td class="r">19,200</td><td class="r">R 39.10</td><td class="r">R 9.0M</td></tr>
+        <tr><td>Connect customers on other networks · Add-on</td><td class="r">2,000,000</td><td class="r">1.5%</td><td class="r">30,000</td><td class="r">R 22.96</td><td class="r">R 8.3M</td></tr>
+        <tr class="total"><td>Total</td><td class="r"></td><td class="r"></td><td class="r">137,200</td><td class="r"></td><td class="r">R 41.5M</td></tr>
+      </table>
+      </div>
+      <div class="boxlabel" style="margin-top:1rem;">Base case: annual revenue to FNB Connect</div>
+      <div class="barlist">
+        <div class="barrow"><span class="lbl">Year 1 · R16.6M</span><div class="track"><div class="fill" style="width:40%;"></div></div><span class="val on">54,880</span></div>
+        <div class="barrow"><span class="lbl">Year 2 · R24.9M</span><div class="track"><div class="fill" style="width:60%;"></div></div><span class="val on">82,320</span></div>
+        <div class="barrow"><span class="lbl">Year 3 · R31.6M</span><div class="track"><div class="fill" style="width:76%;"></div></div><span class="val on">104,272</span></div>
+        <div class="barrow"><span class="lbl">Year 4 · R37.4M</span><div class="track"><div class="fill" style="width:90%;"></div></div><span class="val on">123,480</span></div>
+        <div class="barrow"><span class="lbl">Year 5 · R41.5M</span><div class="track"><div class="fill" style="width:100%;"></div></div><span class="val on">137,200</span></div>
+      </div>
+      <div class="statrow c3">
+        <div class="stat"><b>R16.6M</b><span>Year 5 annual revenue to FNB Connect, worst case (0.4× base)</span></div>
+        <div class="stat"><b class="g" style="color:var(--gold);">R41.5M</b><span>Year 5 annual revenue to FNB Connect, base case. R152M over five years</span></div>
+        <div class="stat"><b>R83.0M</b><span>Year 5 annual revenue to FNB Connect, best case (2× base)</span></div>
+      </div>
+      <div class="popiastrip" style="margin-top:1rem;">
+        <div class="pa" style="color:var(--gold);">+R5.9M</div>
+        <div>
+          <h4>eInsurer warranty upside, on top of the base case</h4>
+          <p>If 30% of the 137,200 protected customers in Year 5 also take a warranty (41,160 customers) at the TERA price of R12 a month, that adds about R5.9M a year in gross warranty sales. FNB Connect's share is confirmed in the SOW. Prepaid customers buying the R7 Entry warranty on its own would add to this.</p>
+        </div>
+      </div>
+      <div class="popiastrip" style="margin-top:.8rem;background:linear-gradient(135deg,rgba(30,58,76,.08),rgba(30,58,76,.02));border-color:rgba(30,58,76,.22);">
+        <div class="pa" style="color:var(--navy);">+R2.6M</div>
+        <div>
+          <h4>Travel eSIM upside in prepaid, on top of the base case</h4>
+          <p>If 2% of the 600,000 prepaid customers (12,000) buy the Annual Credit Pack at R216.72 excl. VAT, that adds about R2.6M a year in gross Travel eSIM sales, before any pay-as-you-go top-ups. FNB Connect's share is confirmed in the SOW.</p>
+        </div>
+      </div>
+      <div class="statrow c3" style="margin-top:1rem;">
+        <div class="stat"><b>R41.5M</b><span>Bitdefender base case, Year 5</span></div>
+        <div class="stat"><b class="g" style="color:var(--gold);">+R8.5M</b><span>eInsurer warranty (+R5.9M) and Travel eSIM (+R2.6M) upside</span></div>
+        <div class="stat"><b class="n" style="color:var(--navy);">≈ R50.0M</b><span>Combined Year 5 gross revenue line across all three products</span></div>
+      </div>
+      <p class="footnote">Illustrative model for discussion. Bar values on the right are protected customers. The split of the 1 million active SIMs into 15% postpaid, 25% hybrid and 60% prepaid is a working assumption, to be replaced with FNB Connect's actual mix during scoping. "Connect customers on other networks" is ~3 million Connect-services customers⁶ minus ~1 million FNB SIM holders. The device segment uses one year of device sales⁷ as the protected-device pool. Revenue = protected customers × FNB Connect's 50% share × 12. For plan-included segments, this is the recommended-retail value at FNB Connect's share, recovered through plan pricing. A blended tier mix (5/10-device tiers) would refine the forecast.</p>
+    </section>
+
+    <!-- 19 : TERMS & CONDITIONS -->
+    <section class="slide">
+      <span class="eyebrow">Terms &amp; Conditions</span>
+      <h1 class="sh">Terms &amp; <span class="hl">Conditions</span></h1>
+      <div class="cardgrid c2">
+        <div class="card">
+          <div class="boxlabel">General</div>
+          <p style="font-size:.82rem;color:var(--muted);line-height:1.65;margin:0;">FNB Connect, part of First National Bank, a division of FirstRand Bank Limited, appoints Digital Resilience as its Agent for the services in this proposal. All Digital Resilience proposals are valid for fifteen (15) days.</p>
+        </div>
+        <div class="card">
+          <div class="boxlabel">Contract</div>
+          <p style="font-size:.82rem;color:var(--muted);line-height:1.65;margin:0;">The contract period is thirty-six (36) months. If this proposal is approved, a draft MSA (Master Services Agreement) and SOW (Schedule of Work) will be shared for review.</p>
+        </div>
+      </div>
+      <div class="card" style="margin-top:.9rem;">
+        <div class="boxlabel">Payment Terms</div>
+        <div class="checklist mut">
+          <div><span class="tick">•</span>All charges exclude Tax &amp; Duties</div>
+          <div><span class="tick">•</span>Prices are quoted in USD</div>
+          <div><span class="tick">•</span>Licensing is based on selection and approval, billed monthly in advance, and payable within 21 days of invoice</div>
+          <div><span class="tick">•</span>Once-off setup charges: 80% deposit, with the remaining 20% invoiced before launch</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 20 : INTEGRATION TIMELINE -->
+    <section class="slide">
+      <span class="eyebrow">Delivery Plan</span>
+      <h1 class="sh">Live in <span class="hl">weeks, not months.</span></h1>
+      <p class="lede">This is an SDK/API and app-level attach, not a network build, so rollout is fast. We recommend proving it in one segment before full rollout.</p>
+      <div class="cardgrid">
+        <div class="card"><div class="miniPill">Weeks 1–2</div><h4 style="margin-top:.6rem;">Scoping &amp; sign-off</h4><p>Commercial terms, SOW, segment mix and API scoping with FNB Connect's product, technical and compliance teams.</p></div>
+        <div class="card"><div class="miniPill">Weeks 3–4</div><h4 style="margin-top:.6rem;">API &amp; SDK integration</h4><p>The Endpoint Security, Parental Control, VPN and Account Privacy modules are connected to the FNB App and Connect provisioning and billing through the REST API, along with eInsurer warranty activation and Travel eSIM provisioning.</p></div>
+        <div class="card"><div class="miniPill">Week 5</div><h4 style="margin-top:.6rem;">UAT &amp; compliance</h4><p>End-to-end testing, eBucks payment flow, warranty activation and claims routing, POPIA review and security sign-off.</p></div>
+        <div class="card"><div class="miniPill">Week 6</div><h4 style="margin-top:.6rem;">Staff &amp; support training</h4><p>Tier 1 and Tier 2 support training for FNB Connect's support channels, following the support model on the Support page.</p></div>
+        <div class="card pilot"><div class="miniPill" style="background:#fff;">Week 7</div><h4 style="margin-top:.6rem;">Soft launch: pilot segment</h4><p>Launch in one segment first, such as the prepaid ladder on new SIMs, new device sales or a single postpaid plan, to prove attach rate and satisfaction before the wider rollout.</p></div>
+        <div class="card"><div class="miniPill">Week 8+</div><h4 style="margin-top:.6rem;">Full rollout &amp; optimise</h4><p>Base-wide launch, attach-rate tuning and quarterly reviews.</p></div>
+      </div>
+    </section>
+
+    <!-- 21 : NEXT STEPS -->
+    <section class="slide">
+      <span class="eyebrow">Next Steps</span>
+      <h1 class="sh">Let's bring protection, cover and travel-ready connectivity to <span class="hl">every FNB Connect customer.</span></h1>
+      <p class="lede">The next step is a working session with FNB Connect's product team. We will replace the assumed segment mix with real plan data, agree on the pilot segment, its warranty tier and the prepaid launch offers, and lock the integration plan, so the pilot can be live within eight weeks of signature.</p>
+      <div class="contactcard">
+        <div class="boxlabel" style="color:#FA9D1E;">Prepared By</div>
+        <div class="name">Jason Alexander</div>
+        <div class="role">Digital Resilience</div>
+        <a href="mailto:Jasonal@digitalresilience.co.za">Jasonal@digitalresilience.co.za →</a>
+      </div>
+
+      <div class="acceptbox">
+        <div class="boxlabel">Acceptance</div>
+        <h2 class="ssh" style="margin-top:0;">Accept This Proposal</h2>
+        <p class="body-sm">Complete the form below to formally accept this proposal on behalf of FNB Connect.</p>
+        <div id="acceptForm">
+          <div class="acceptgrid">
+            <div><label>Full name *</label><input id="af-name" type="text" placeholder="Full name"></div>
+            <div><label>Job title *</label><input id="af-title" type="text" placeholder="Job title"></div>
+            <div><label>Email address *</label><input id="af-email" type="email" placeholder="Email address"></div>
+            <div><label>Company *</label><input id="af-company" type="text" value="FNB Connect (FirstRand Bank Limited)"></div>
+          </div>
+          <label class="acceptcheck"><input id="af-auth" type="checkbox" style="margin-top:.15rem;"> I confirm I have the authority to accept this proposal on behalf of FNB Connect.</label>
+          <button class="acceptbtn" onclick="acceptProposal()">Accept Proposal</button>
+          <p class="footnote">When you submit, an email to Digital Resilience opens for you to send to confirm acceptance.</p>
+        </div>
+        <div class="acceptdone" id="acceptDone">
+          <div class="tickbig">✓</div>
+          <h2 class="ssh" style="margin:0;">Proposal Accepted</h2>
+          <p class="body-sm" style="margin:.4rem 0 0;">Thank you. Digital Resilience will be in touch to finalise the MSA and SOW.</p>
+          <div class="aid" id="af-id"></div>
+        </div>
+      </div>
+      <p class="footnote" style="text-align:center;margin-top:1.5rem;">This document is confidential and may not be shared without consent from Digital Resilience. Figures are indicative and for discussion purposes only.</p>
+    </section>
+
+  </div></div>
+
+  <div class="progresstrack"><div class="progressfill" id="progressFill"></div></div>
+  <div class="footbar">
+    <div class="ftitle" id="slideTitle"></div>
+    <div class="fcount" id="slideCounter"></div>
+    <button class="navbtn" id="prevBtn" aria-label="Previous (←)">‹</button>
+    <button class="navbtn" id="nextBtn" aria-label="Next (→)">›</button>
+  </div>
+
+</div>
+
+<script>
+  function checkPw(){
+    var val = document.getElementById('pw-input').value;
+    if (val === 'FNBConnect2026') {
+      document.getElementById('gate').classList.add('hidden');
+      document.getElementById('app').hidden = false;
+      initDeck();
+    } else {
+      var inp = document.getElementById('pw-input');
+      inp.classList.add('error');
+      document.getElementById('pw-error').style.display = 'block';
+      setTimeout(function(){ inp.classList.remove('error'); }, 1500);
+    }
+  }
+
+  function acceptProposal(){
+    var name = document.getElementById('af-name').value.trim();
+    var title = document.getElementById('af-title').value.trim();
+    var email = document.getElementById('af-email').value.trim();
+    var company = document.getElementById('af-company').value.trim();
+    var auth = document.getElementById('af-auth').checked;
+    if (!name || !title || !email || !company || !auth) {
+      alert('Please complete all required fields and confirm you have the authority to accept this proposal.');
+      return;
+    }
+    var id = 'DR-FNBC-' + Date.now().toString(36).toUpperCase();
+    document.getElementById('acceptForm').style.display = 'none';
+    document.getElementById('acceptDone').style.display = 'block';
+    document.getElementById('af-id').textContent = 'Acceptance ID: ' + id + ' · ' + new Date().toLocaleDateString('en-ZA', {day:'numeric', month:'long', year:'numeric'});
+    var subject = encodeURIComponent('FNB Connect: Bitdefender Proposal Accepted');
+    var body = encodeURIComponent('Name: ' + name + '\nTitle: ' + title + '\nEmail: ' + email + '\nCompany: ' + company + '\nAcceptance ID: ' + id);
+    window.location.href = 'mailto:Jasonal@digitalresilience.co.za?subject=' + subject + '&body=' + body;
+  }
+
+  var deckInit = false;
+  function initDeck(){
+    if (deckInit) return;
+    deckInit = true;
+    var slides = document.querySelectorAll('.slide');
+    var titles = ["Cover","The Opportunity","Why It Matters for FNB Connect","About DSG","About Bitdefender","Why Bitdefender","Trusted by Mobile &amp; Service Providers",
+      "Three Pillars of Protection","Ecosystem Integration","Go-to-Market Strategy","Packaging for FNB Connect","Feature Comparison","Personal Cyber Warranty &middot; eInsurer","Prevent + Recover Bundles","Travel eSIM for Prepaid","The Prepaid Growth Engine","In the FNB App","Business Benefits",
+      "Marketing &amp; Expansion Support","Customer Support Structure","Commercials &amp; Pricing","Financial Model &middot; Key Metrics","Business Case &middot; Segment Model",
+      "Terms &amp; Conditions","Integration Timeline","Next Steps"];
+    var idx = 0;
+    var pills = document.querySelectorAll('#pillnav a');
+    var stage = document.getElementById('stage');
+    var ranges = [1,2,3,4,5,7,9,12,14,16,18,19,20,21,23,24,25];
+
+    function render(){
+      slides.forEach(function(s,i){ s.classList.toggle('active', i===idx); });
+      document.getElementById('slideTitle').innerHTML = titles[idx];
+      document.getElementById('slideCounter').textContent = (idx+1) + ' / ' + slides.length;
+      document.getElementById('progressFill').style.width = (((idx+1)/slides.length)*100) + '%';
+      document.getElementById('prevBtn').disabled = (idx === 0);
+      document.getElementById('nextBtn').disabled = (idx === slides.length - 1);
+      var activeRangeStart = 0;
+      for (var r = 0; r < ranges.length; r++){ if (idx >= ranges[r]) activeRangeStart = ranges[r]; }
+      pills.forEach(function(a){
+        a.classList.toggle('active', parseInt(a.getAttribute('data-goto'),10) === activeRangeStart);
+      });
+      stage.scrollTop = 0;
+    }
+    function goTo(i){ idx = Math.max(0, Math.min(slides.length - 1, i)); render(); }
+
+    document.getElementById('prevBtn').onclick = function(){ goTo(idx - 1); };
+    document.getElementById('nextBtn').onclick = function(){ goTo(idx + 1); };
+    pills.forEach(function(a){
+      a.onclick = function(e){ e.preventDefault(); goTo(parseInt(a.getAttribute('data-goto'),10)); };
+    });
+    document.addEventListener('keydown', function(e){
+      if (document.getElementById('app').hidden) return;
+      if (e.key === 'ArrowRight') goTo(idx + 1);
+      if (e.key === 'ArrowLeft') goTo(idx - 1);
+    });
+    if (location.hash.indexOf('#s=') === 0) { goTo(parseInt(location.hash.slice(3),10) || 0); return; }
+    render();
+  }
+</script>
+
+</body>
+</html>
